@@ -2,6 +2,10 @@
 
 特别注意：本组件为[vue-testcase-minder-editor](https://github.com/chenhengjie123/vue-testcase-minder-editor)基础上再次进行二次开发
 
+特此存档---以满足添加测试用例公共因子标签的需求
+
+
+
 基于百度脑图，并使用Vue二次开发的用例脑图编辑器组件。
 
 底层基础（因为需要协同修改，已经整体挪到项目中）：[百度脑图](https://github.com/fex-team/kityminder-core) 

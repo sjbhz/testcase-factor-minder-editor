@@ -2,15 +2,15 @@
 <div class="insert-group">
   <div class="insert-child-box menu-btn" :disabled="disabled1" @click="appendChildNode">
     <i class="tab-icons"></i>
-    <span>插入下级主题</span>
+    <span>插入下级</span>
   </div>
   <div class="insert-parent-box menu-btn" :disabled="disabled2" @click="appendParentNode">
     <i class="tab-icons"></i>
-    <span>插入上级主题</span>
+    <span>插入上级</span>
   </div>
   <div class="insert-sibling-box menu-btn" :disabled="disabled3" @click="appendSiblingNode">
     <i class="tab-icons"></i>
-    <span>插入同级主题</span>
+    <span>插入同级</span>
   </div>
 </div>
 </template>

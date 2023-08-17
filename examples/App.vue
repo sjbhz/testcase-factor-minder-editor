@@ -27,14 +27,14 @@ export default {
             id: '0'
           },
           children: [
-            { data: { text: '新闻', id: '1', resource: ['自定义标签'] } },
-            { data: { text: '网页', id: '2', priority: 1 } },
+            { data: { text: '新闻', id: '1', resource: ['3'] } },
+            { data: { text: '网页', id: '2', priority: 1 , resource: ['4']} },
             { data: { text: '贴吧', id: '3', priority: 2 } },
             { data: { text: '知道', id: '4', priority: 2 } },
             { data: { text: '音乐', id: '5', priority: 3 } },
-            { data: { text: '图片', id: '6', priority: 3 } },
+            { data: { text: '图片', id: '6', priority: 4 } },
             { data: { text: '视频', id: '7', priority: 3 } },
-            { data: { text: '地图', id: '8', priority: 3 } },
+            { data: { text: '地图', id: '8', priority: 5 } },
             { data: { text: '百科', id: '9', priority: 3 } },
             { data: { text: '更多', id: '10', hyperlink: 'http://www.baidu.com/more' } }
           ]

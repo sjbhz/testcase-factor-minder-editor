@@ -15,6 +15,10 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
+/*
+  Desc:由 添加result 改造，未用存档
+  Date:2023-08-17
+*/
 export default {
   name: "stageBox",
   data() {
@@ -85,3 +89,34 @@ export default {
   created() {}
 };
 </script>
+<style scoped>
+.stage-group {
+  display: inline-block;
+  height: 100%;
+  width: 60px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.part-top {
+  display: inline-block;
+  height: 50%;
+}
+
+.part-bottom {
+  display: inline-block;
+  width: 60px;
+  margin-left: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.stage-btn {
+  /* color: "#fff"; */
+  margin-left: 5px;
+  line-height: 5px;
+  margin-top: 5px;
+}
+</style>

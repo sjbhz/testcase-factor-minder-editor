@@ -1,7 +1,7 @@
 <template lang="html">
 <div class="menu-container">
   <mold></mold>
-  <theme></theme>
+  <!-- <theme></theme> -->
   <arrange></arrange>
   <styleOperation></styleOperation>
   <fontOperation></fontOperation>

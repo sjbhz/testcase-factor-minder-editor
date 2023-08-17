@@ -1,9 +1,9 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2021-03-02
+ * Kity Minder Core - v1.4.50 - 2023-08-16
  * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git 
- * Copyright (c) 2021 Baidu FEX; Licensed BSD-3-Clause
+ * GitHub: https://github.com/fex-team/kityminder-core.git
+ * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
 
@@ -812,7 +812,7 @@ _p[12] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String) 
+         * function Text2Children(MinderNode, String)
          * @param {MinderNode} node 要导入数据的节点
          * @param {String} text 导入的text数据
          * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
@@ -825,7 +825,7 @@ _p[12] = {
          *              wereww
          *          12314
          *      1231412
-         *      13123    
+         *      13123
          */
             Text2Children: function(node, text) {
                 if (!(node instanceof kityminder.Node)) {
@@ -6448,11 +6448,12 @@ _p[56] = {
             //     ['#A3A3A3', '#515151'],
             //     ['#A3A3A3', '#515151'],
             // ]; // hue from 1 to 5
-            var PRIORITY_COLORS = [ null, [ "#F85633", "#F85633" ], // 1 - red
-            [ "#3e7bbf", "#3e7bbf" ], // 2 - blue
-            [ "#2DBAAD", "#2DBAAD" ], // 3 - green
-            [ "#DD832C", "#DD832C" ] ];
-            // hue from 1 to 5
+            var PRIORITY_COLORS = [ null, [ "#50d4ab", "#50d4ab" ], // 1 - green
+            [ "#6cbfff", "#6cbfff" ], // 2 - blue
+            [ "#fac20a", "#fac20a" ], // 3 - yellow
+            [ "#fa9841", "#fa9841" ], // 4 - orange
+            [ "#a97af8", "#a97af8" ] ];
+            // hue from 1 to 6
             // jscs:disable maximumLineLength
             var BACK_PATH = "M0,13c0,3.866,3.134,7,7,7h6c3.866,0,7-3.134,7-7V7H0V13z";
             var MASK_PATH = "M20,10c0,3.866-3.134,7-7,7H7c-3.866,0-7-3.134-7-7V7c0-3.866,3.134-7,7-7h6c3.866,0,7,3.134,7,7V10z";
@@ -6488,19 +6489,37 @@ _p[56] = {
                         back.fill(color[1]);
                         mask.fill(color[0]);
                     }
-                    number.setContent("P" + (value - 1));
+                    // number.setContent("P" + (value - 1));
+                    // ----重写标签名
+                    // var labelArr = [
+                    //   { id: "0", value: " X", label: " 移 除", color: "#a3d980" },
+                    //   { id: "1", value: "SC", label: " 场 景", color: "#50d4ab" },
+                    //   { id: "2", value: "TP", label: "测试点", color: "#6cbfff" },
+                    //   { id: "3", value: "CO", label: "前提条件", color: "#fac20a" },
+                    //   { id: "4", value: "ST", label: "操作步骤", color: "#fa9841" },
+                    //   { id: "5", value: "EX", label: "预期结果", color: "#a97af8" },
+                    // ];
+                    // //value 为0时走不到这里，不用判断
+                    // var finalValuetemp = labelArr.find((ii) => ii.id == value);
+                    // console.log("finalValuetemp--", finalValuetemp);
+                    // if (!finalValuetemp ) {
+                    //   return;
+                    // }
+                    // number.setContent(finalValuetemp.value);
+                    var finalValuetemp = value == 1 ? "SC" : value == 2 ? "TP" : value == 3 ? "CO" : value == 4 ? "ST" : "EX";
+                    number.setContent(finalValuetemp);
                 }
             });
             /**
-         * @command Priority
-         * @description 设置节点的优先级信息
-         * @param {number} value 要设置的优先级（添加一个优先级小图标）
-         *     取值为 0 移除优先级信息；
-         *     取值为 1 - 9 设置优先级，超过 9 的优先级不渲染
-         * @state
-         *    0: 当前有选中的节点
-         *   -1: 当前没有选中的节点
-         */
+     * @command Priority
+     * @description 设置节点的优先级信息
+     * @param {number} value 要设置的优先级（添加一个优先级小图标）
+     *     取值为 0 移除优先级信息；
+     *     取值为 1 - 9 设置优先级，超过 9 的优先级不渲染
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
             var PriorityCommand = kity.createClass("SetPriorityCommand", {
                 base: Command,
                 execute: function(km, value) {
