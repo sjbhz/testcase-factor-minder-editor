@@ -100,7 +100,7 @@
       this.$refs.notePreviewer.addEventListener('mousewheel', (e) => {
         e.stopPropagation()
       });
-      
+
       // 设置到 vuex 里，便于其他 vue 组件获取更新
       this.setConfig({
         'allowEditPriority': this.allowEditPriority,
@@ -222,7 +222,7 @@
             window.editor.hotbox.$container.removeChild(editor.hotbox.$element);
           }
         } else {
-          // 从 readonly 切换到其他状态，需要加上第二个 force 参数，且值要为 true 
+          // 从 readonly 切换到其他状态，需要加上第二个 force 参数，且值要为 true
           window.minder.setStatus("normal", true)
           window.editor.hotbox.$container.appendChild(editor.hotbox.$element);
         }

@@ -30,7 +30,7 @@ require('marked')
 require('kity')
 
 // require('../node_modules/hotbox/hotbox.js')
-require('../../../hotbox/hotbox.js')  // hotBox不用打包直接引入? 修改后不生效?
+require('../../../hotbox/hotbox.js')  // 引入hotBox不用打包直接引入? 修改后不生效?
 // require('../node_modules/kityminder-core/dist/kityminder.core.js')
 require('../../../kityminder-core/dist/kityminder.core.js')
 
@@ -102,6 +102,7 @@ export default {
     // TODO: 直接从 window 取 minder 不大好，应该调用 vuex
     this.minder = window.minder
     this.minder.importJson(this.initJson)
+    this.$emit('afterMountEditor')
   },
   watch: {
     // 因为父组件有可能是通过异步等方式来获取初始化 Json 的，

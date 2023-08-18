@@ -1,9 +1,10 @@
 # TESTCASE-FACTOR-MINDER-EDITOR
 
-特别注意：本组件为[vue-testcase-minder-editor](https://github.com/chenhengjie123/vue-testcase-minder-editor)基础上再次进行二次开发
+#### 特别注意：本组件为[vue-testcase-minder-editor](https://github.com/chenhengjie123/vue-testcase-minder-editor)基础上再次进行二次开发
 
-特此存档---以满足添加测试用例公共因子标签的需求
+#### 特此存档---以满足添加测试用例公共因子标签的需求
 
+#### 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
 
 
 基于百度脑图，并使用Vue二次开发的用例脑图编辑器组件。

@@ -7,8 +7,6 @@ define(function (require, exports, module) {
 
     var main = hotbox.state("main");
 
-    console.log("minder---11", minder, hotbox, fsm);
-
     var buttons = [
       "前移:Alt+Up:ArrangeUp",
       "下级:Tab|Insert:AppendChildNode",
@@ -77,24 +75,6 @@ define(function (require, exports, module) {
       },
     });
 
-    main.button({
-      position: "ring",
-      label: "新建用例",
-      key: "R",
-      action: function () {
-        //上报父组件
-        this.$emit("createNewCase", minder.getSelectedNode());
-      },
-      enable: function () {
-        let currentNode = minder.getSelectedNode(); //获取当前点击的node
-        if (currentNode.data.priority && currentNode.data.priority == 2) {
-          //如果是 TP 则可新建用例，其他都不给建
-          return true;
-        }
-        return false;
-      },
-      beforeShow: function () {},
-    });
   }
 
   return (module.exports = NodeRuntime);
