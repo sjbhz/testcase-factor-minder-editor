@@ -226,14 +226,16 @@ define(function(require, exports, module) {
 
                 }
 
-                text.setX(paddingX).fill(color.dec('l', 70));
+                // text.setX(paddingX).fill(color.dec('l', 70));
+                text.setX(paddingX).fill('#000'); //固定字体颜色
 
                 rect = this.rect;
                 rect.setPosition(0, box.y - paddingY);
                 this.width = Math.round(box.width + paddingX * 2);
                 this.height = Math.round(box.height + paddingY * 2);
                 rect.setSize(this.width, this.height);
-                rect.fill(color);
+                // rect.fill(color);
+                rect.fill('#eef3f6'); //固定背景颜色
             }
         });
 

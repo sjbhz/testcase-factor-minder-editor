@@ -1,9 +1,15 @@
+<!--
+ * @Descripttion: 测试点等标签--由sequenceBox文件改造
+ * @LastEditors: qinjie
+ * @LastEditTime: 2023-08-17
+-->
 <template lang="">
   <div :disabled="commandDisabled">
     <span v-for="(item, index) in items" class="stage-group">
       <span class="part-top">
         <el-button
           class="stage-btn"
+          :class="classArray(index)"
           size="mini"
           @click="execCommand(index)"
           :title="title(item,index)"
@@ -21,11 +27,6 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-
-/*
-  Desc:由 priority改造
-  Date:2023-08-17
-*/
 
 export default {
   name: "stageBox",
@@ -59,8 +60,9 @@ export default {
   },
   methods: {
     execCommand(index) {
-      console.log("this.minder--", this.minder);
       this.commandDisabled || this.minder.execCommand("priority", index);
+      let currentNodeClick = this.minder.getSelectedNode();
+      this.$emit("changeNodeLabel", currentNodeClick);
     },
 
     classArray(index) {

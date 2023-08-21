@@ -1,8 +1,8 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2023-08-16
+ * Kity Minder Core - v1.4.50 - 2023-08-19
  * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git
+ * GitHub: https://github.com/fex-team/kityminder-core.git 
  * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
@@ -812,7 +812,7 @@ _p[12] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String)
+         * function Text2Children(MinderNode, String) 
          * @param {MinderNode} node 要导入数据的节点
          * @param {String} text 导入的text数据
          * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
@@ -825,7 +825,7 @@ _p[12] = {
          *              wereww
          *          12314
          *      1231412
-         *      13123
+         *      13123    
          */
             Text2Children: function(node, text) {
                 if (!(node instanceof kityminder.Node)) {
@@ -6490,22 +6490,7 @@ _p[56] = {
                         mask.fill(color[0]);
                     }
                     // number.setContent("P" + (value - 1));
-                    // ----重写标签名
-                    // var labelArr = [
-                    //   { id: "0", value: " X", label: " 移 除", color: "#a3d980" },
-                    //   { id: "1", value: "SC", label: " 场 景", color: "#50d4ab" },
-                    //   { id: "2", value: "TP", label: "测试点", color: "#6cbfff" },
-                    //   { id: "3", value: "CO", label: "前提条件", color: "#fac20a" },
-                    //   { id: "4", value: "ST", label: "操作步骤", color: "#fa9841" },
-                    //   { id: "5", value: "EX", label: "预期结果", color: "#a97af8" },
-                    // ];
-                    // //value 为0时走不到这里，不用判断
-                    // var finalValuetemp = labelArr.find((ii) => ii.id == value);
-                    // console.log("finalValuetemp--", finalValuetemp);
-                    // if (!finalValuetemp ) {
-                    //   return;
-                    // }
-                    // number.setContent(finalValuetemp.value);
+                    // ----重写标签名 value == 0未进来，不用考虑--使用数组过滤，打包出错，改为以下方式
                     var finalValuetemp = value == 1 ? "SC" : value == 2 ? "TP" : value == 3 ? "CO" : value == 4 ? "ST" : "EX";
                     number.setContent(finalValuetemp);
                 }
@@ -6962,13 +6947,15 @@ _p[58] = {
                         this.lastResourceName = resourceName;
                         this.lastBox = box;
                     }
-                    text.setX(paddingX).fill(color.dec("l", 70));
+                    // text.setX(paddingX).fill(color.dec('l', 70));
+                    text.setX(paddingX).fill("#000");
                     rect = this.rect;
                     rect.setPosition(0, box.y - paddingY);
                     this.width = Math.round(box.width + paddingX * 2);
                     this.height = Math.round(box.height + paddingY * 2);
                     rect.setSize(this.width, this.height);
-                    rect.fill(color);
+                    // rect.fill(color);
+                    rect.fill("#eef3f6");
                 }
             });
             /**

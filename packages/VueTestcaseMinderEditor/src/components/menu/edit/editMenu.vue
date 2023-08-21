@@ -1,5 +1,6 @@
 <template lang="html">
 <div class="menu-container">
+  <save-box v-if="allowEditNode" @saveMind="$emit('saveMind')"></save-box>
 <!--  撤销回退、重做-->
   <back-and-right></back-and-right>
 
@@ -19,12 +20,14 @@
   <!-- <resource-edit v-if="allowEditLabel"></resource-edit> -->
   <!--测试结果登记-->
   <!-- <result-box v-if="allowEditResult"></result-box> -->
-  <stage-box v-if="allowEditPriority"></stage-box>
+  <!-- 添加测试点TP等标签 -->
+  <stage-box v-if="allowEditPriority" @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)"></stage-box>
 
 </div>
 </template>
 
 <script>
+import saveBox from "./saveBox";
 import insertBox from "./insertBox";
 import moveBox from "./moveBox";
 import editDel from "./editDel";
@@ -45,6 +48,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "editMenu",
   components: {
+    saveBox,
     Search,
     NodeBox,
     insertBox,

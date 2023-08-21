@@ -12,10 +12,10 @@
         <el-button class="full-screen-button" icon="el-icon-full-screen" @click="toggleFullScreen">{{fullScreenText}}</el-button>
       </div>
     </div>
-        
+
     <div id="mind_tab-content">
       <div class="mind-tab-panel" v-show="switchShow.showEditMenu">
-        <edit-menu></edit-menu>
+        <edit-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')"></edit-menu>
       </div>
       <div class="mind-tab-panel" v-show="switchShow.showViewMenu">
         <view-menu></view-menu>
@@ -31,7 +31,7 @@
     mapMutations,
     mapGetters
   } from 'vuex'
-  
+
   export default {
     name: 'headerVue',
     data() {

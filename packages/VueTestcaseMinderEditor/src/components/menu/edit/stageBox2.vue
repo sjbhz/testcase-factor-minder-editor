@@ -1,3 +1,8 @@
+<!--
+ * @Descripttion: 由 添加result 改造，未用存档--测试点等标签
+ * @LastEditors: qinjie
+ * @LastEditTime: 2023-08-17
+-->
 <template lang="">
   <div :disabled="commandDisabled">
     <span v-for="(item, index) in items">
@@ -15,10 +20,6 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-/*
-  Desc:由 添加result 改造，未用存档
-  Date:2023-08-17
-*/
 export default {
   name: "stageBox",
   data() {

@@ -2,6 +2,7 @@
   <div id="app">
     <VueTestcaseMinderEditor
       @afterMountEditor="afterMountEditor"
+      @saveMind="saveMind"
       :initJson="initJson"
       ref="minderEditor"
       :allowEditPriority="editMode"
@@ -27,7 +28,7 @@ export default {
             id: "0"
           },
           children: [
-            { data: { text: "新闻", id: "1", resource: ["3"] } },
+            { data: { text: "新闻", id: "1", resource: ["(3)"] } },
             { data: { text: "网页", id: "2", priority: 1, resource: ["4"] } },
             { data: { text: "贴吧", id: "3", priority: 2 } },
             { data: { text: "知道", id: "4", priority: 2 } },
@@ -55,6 +56,32 @@ export default {
         ? "进入编辑模式，允许修改脑图内容及登记结果"
         : "退出编辑模式";
     }
+  },
+  watch: {
+    initJson: {
+      handler(val, oldVal) {
+        console.log("val---", val);
+      },
+      // immediate: true,
+      deep: true
+    }
+  },
+  mounted() {
+    //watch 中无法触发变动，则在此添加监听事件
+    let _this = this;
+    window.addEventListener("message", function(data) {
+      console.log("打印", _this.$refs.minderEditor.getJsonData().root, data);
+      // let bindMindTreeData = _this.getBindMindTree()
+      // let branchNode = data.data;
+      // if (bindMindTreeData && branchNode) {
+      //   _this.technologyTreeList.push({
+      //     'branchId': branchNode.branchId,
+      //     'branchText': branchNode.branchText,
+      //     'mindId': bindMindTreeData.id,
+      //     'mindName': bindMindTreeData.mindName,
+      //   });
+      // }
+    });
   },
   methods: {
     // 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
@@ -89,25 +116,30 @@ export default {
         beforeShow: function() {}
       });
     },
-
+    // 支持脑图保存按钮
+    saveMind() {
+      //获取当前页面脑图数据
+      let caseJsonPage = this.$refs.minderEditor.getJsonData();
+      console.log("caseJsonPage00----", caseJsonPage);
+    },
     logCurrentData: function(event) {
       const caseJson = this.$refs.minderEditor.getJsonData();
       console.log("编辑器中的最新用例内容：", caseJson);
       const nodeDatas = {};
       this.checkJsonHasDuplicateId(caseJson.root, nodeDatas);
-      let hasDuplicateId = false;
-      Object.keys(nodeDatas).forEach(function(key) {
-        const nodeData = nodeDatas[key];
-        if (nodeData.length > 1) {
-          console.log("重复id内容: ", nodeData);
-          hasDuplicateId = true;
-        }
-      });
-      if (hasDuplicateId) {
-        this.$message.error("存在重复 id ，详情请看日志");
-      } else {
-        this.$message("未发现重复 id ");
-      }
+      // let hasDuplicateId = false;
+      // Object.keys(nodeDatas).forEach(function(key) {
+      //   const nodeData = nodeDatas[key];
+      //   if (nodeData.length > 1) {
+      //     console.log("重复id内容: ", nodeData);
+      //     hasDuplicateId = true;
+      //   }
+      // });
+      // if (hasDuplicateId) {
+      //   this.$message.error("存在重复 id ，详情请看日志");
+      // } else {
+      //   this.$message("未发现重复 id ");
+      // }
     },
     toggleEditMode: function(event) {
       this.editMode = !this.editMode;

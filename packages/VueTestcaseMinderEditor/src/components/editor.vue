@@ -1,7 +1,7 @@
 <template>
   <!--<div class="main-container">-->
   <div :class="computeFullScreenClass">
-    <header-menu></header-menu>
+    <header-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')"></header-menu>
     <main-editor></main-editor>
     <navigator></navigator>
 

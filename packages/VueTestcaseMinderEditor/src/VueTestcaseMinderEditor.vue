@@ -1,9 +1,21 @@
+<!--
+ * @Descripttion: 添加changeNodeLabel、afterMountEditor事件向组件父级传递
+ *
+ * afterMountEditor：加载后可添加新的按钮事件上报；
+ * changeNodeLabel：点击标签后触发的点击事件上报；
+ *
+ * @LastEditors: qinjie
+ * @LastEditTime: 2023-08-17
+-->
 <template>
-  <editor class="vue-testcase-minder-editor-container"
-      :allowEditPriority="allowEditPriority"
-      :allowEditLabel="allowEditLabel"
-      :allowEditResult="allowEditResult"
-      :allowEditNode="allowEditNode"
+  <editor
+    class="vue-testcase-minder-editor-container"
+    @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)"
+    @saveMind="$emit('saveMind')"
+    :allowEditPriority="allowEditPriority"
+    :allowEditLabel="allowEditLabel"
+    :allowEditResult="allowEditResult"
+    :allowEditNode="allowEditNode"
   ></editor>
 </template>
 
