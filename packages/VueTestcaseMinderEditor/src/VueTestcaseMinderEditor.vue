@@ -122,6 +122,7 @@ export default {
     initJson: {
       deep: true,
       handler(val) {
+        //没监听到？
         this.minder.importJson(val)
       }
     },

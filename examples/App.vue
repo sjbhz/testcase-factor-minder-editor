@@ -68,19 +68,22 @@ export default {
   },
   mounted() {
     //watch 中无法触发变动，则在此添加监听事件
-    let _this = this;
-    window.addEventListener("message", function(data) {
-      console.log("打印", _this.$refs.minderEditor.getJsonData().root, data);
-      // let bindMindTreeData = _this.getBindMindTree()
-      // let branchNode = data.data;
-      // if (bindMindTreeData && branchNode) {
-      //   _this.technologyTreeList.push({
-      //     'branchId': branchNode.branchId,
-      //     'branchText': branchNode.branchText,
-      //     'mindId': bindMindTreeData.id,
-      //     'mindName': bindMindTreeData.mindName,
-      //   });
-      // }
+
+    /*
+      localStorage.getItem("inputChangeNode")  编辑节点时将当前节点缓存--- 兼容了鼠标直接点击画布，造成无节点选中
+      localStorage.getItem("execCommandName")  操作类型
+      minder.getSelectedNode() 当前节点
+      _this.$refs.minderEditor.getJsonData().root 脑图所有数据
+    */
+    let editor = window.editor;
+    editor.minder.on("contentchange", function(e) {
+      console.log(
+        "contentchange===",
+        localStorage.getItem("execCommandName"),
+        e,
+        minder.getSelectedNode()
+      );
+
     });
   },
   methods: {
@@ -88,13 +91,12 @@ export default {
     afterMountEditor() {
       // let hotbox = window.HotBox;
       let hotboxEditor = window.editor.hotbox;
-      console.log(
-        "hotbox--afterMountEditor",
-        window,
-        this,
-        window.minder,
-        hotboxEditor
-      );
+      // console.log(
+      //   window,
+      //   this,
+      //   window.minder,
+      //   hotboxEditor
+      // );
       let main = hotboxEditor.state("main");
 
       main.button({

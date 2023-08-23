@@ -362,6 +362,30 @@ define(function (require, exports, module) {
       textNodes = commitInputText(textNodes);
       commitInputNode(node, textNodes);
 
+      // console.log('commitInputNode=====input',node, textNodes)
+      localStorage.setItem('execCommandName', 'inputChange')
+      let currentNode ={
+        current:node.data,
+        parent:node.parent.data,
+      }
+      /*
+      解决报错： TypeError: Converting circular structure to JSON at Object.stringify
+      错误说明指的是对象存在循环引用，在将对象进行json序列化的时候就会报错
+      */
+      let cache = [];
+      let json_str = JSON.stringify(currentNode, function(key, value) {
+        if (typeof value === 'object' && value !== null) {
+            if (cache.indexOf(value) !== -1) {
+                return;
+            }
+            cache.push(value);
+        }
+        return value;
+      });
+      cache = null;	//释放cache
+      localStorage.setItem('inputChangeNode', json_str)
+
+
       if (node.type == 'root') {
         var rootText = minder.getRoot().getText();
         minder.fire('initChangeRoot', {

@@ -2,7 +2,7 @@
  * ====================================================
  * Kity Minder Core - v1.4.50 - 2023-08-19
  * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git 
+ * GitHub: https://github.com/fex-team/kityminder-core.git
  * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
@@ -515,6 +515,8 @@ _p[9] = {
          * @param {argument} args 要传递给命令的其它参数
          */
             execCommand: function(name) {
+              // console.log('execCommand=====core',name)
+              localStorage.setItem('execCommandName', name)
                 if (!name) return null;
                 name = name.toLowerCase();
                 var cmdArgs = [].slice.call(arguments, 1), cmd, stoped, result, eventParams;
@@ -812,7 +814,7 @@ _p[12] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String) 
+         * function Text2Children(MinderNode, String)
          * @param {MinderNode} node 要导入数据的节点
          * @param {String} text 导入的text数据
          * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
@@ -825,7 +827,7 @@ _p[12] = {
          *              wereww
          *          12314
          *      1231412
-         *      13123    
+         *      13123
          */
             Text2Children: function(node, text) {
                 if (!(node instanceof kityminder.Node)) {

@@ -25,6 +25,15 @@
       var editor = window.editor = new Editor(el);
       this.setEditor(editor);
 
+
+      if (window.localStorage.mindText) {
+        editor.minder.importJson(JSON.parse(window.localStorage.mindText));
+      }
+
+      editor.minder.on('contentchange', function () {
+        window.localStorage.mindText = JSON.stringify(editor.minder.exportJson());
+      });
+
       window.minder = window.km = editor.minder;
       this.setMinder(editor.minder);
       this.executeCallback();

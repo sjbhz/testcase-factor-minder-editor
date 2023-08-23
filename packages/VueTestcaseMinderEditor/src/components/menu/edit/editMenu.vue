@@ -1,6 +1,6 @@
 <template lang="html">
 <div class="menu-container">
-  <save-box v-if="allowEditNode" @saveMind="$emit('saveMind')"></save-box>
+  <!-- <save-box v-if="allowEditNode" @saveMind="$emit('saveMind')"></save-box> -->
 <!--  撤销回退、重做-->
   <back-and-right></back-and-right>
 
