@@ -68,7 +68,6 @@ export default {
   },
   mounted() {
     //watch 中无法触发变动，则在此添加监听事件
-
     /*
       localStorage.getItem("inputChangeNode")  编辑节点时将当前节点缓存--- 兼容了鼠标直接点击画布，造成无节点选中
       localStorage.getItem("execCommandName")  操作类型
