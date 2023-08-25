@@ -7,15 +7,15 @@ define(function (require, exports, module) {
 
     var main = hotbox.state("main");
 
-    var buttons = [
-      "前移:Alt+Up:ArrangeUp",
-      "下级:Tab|Insert:AppendChildNode",
-      "同级:Enter:AppendSiblingNode",
-      "后移:Alt+Down:ArrangeDown",
-      "删除:Delete|Backspace:RemoveNode",
+    var buttons0 = [
+      "新增子节点:Tab|Insert:AppendChildNode",
+      "新增邻节点:Enter:AppendSiblingNode",
+      "删除节点:Delete|Backspace:RemoveNode",
       "上级:Shift+Tab|Shift+Insert:AppendParentNode",
+      "下移节点:Alt+Down:ArrangeDown",
+      "上移节点:Alt+Up:ArrangeUp",
     ];
-
+    var buttons = []
     var AppendLock = 0;
 
     buttons.forEach(function (button) {
@@ -50,30 +50,35 @@ define(function (require, exports, module) {
       });
     });
 
-    main.button({
-      position: "ring",
-      key: "/",
-      action: function () {
-        if (!minder.queryCommandState("expand")) {
-          minder.execCommand("expand");
-        } else if (!minder.queryCommandState("collapse")) {
-          minder.execCommand("collapse");
-        }
-      },
-      enable: function () {
-        return (
-          minder.queryCommandState("expand") != -1 ||
-          minder.queryCommandState("collapse") != -1
-        );
-      },
-      beforeShow: function () {
-        if (!minder.queryCommandState("expand")) {
-          this.$button.children[0].innerHTML = "展开";
-        } else {
-          this.$button.children[0].innerHTML = "收起";
-        }
-      },
-    });
+    // setupExpandHotbox()
+
+    // 收起展开的快捷方式关闭，--bug:不能在一个node上连续操作？=== 不做在右击中，做在菜单栏上即可
+    function setupExpandHotbox() {
+      main.button({
+        position: "ring",
+        key: "/",
+        action: function () {
+          if (!minder.queryCommandState("expand")) {
+            minder.execCommand("expand");
+          } else if (!minder.queryCommandState("collapse")) {
+            minder.execCommand("collapse");
+          }
+        },
+        enable: function () {
+          return (
+            minder.queryCommandState("expand") != -1 ||
+            minder.queryCommandState("collapse") != -1
+          );
+        },
+        beforeShow: function () {
+          if (!minder.queryCommandState("expand")) {
+            this.$button.children[0].innerHTML = "展开";
+          } else {
+            this.$button.children[0].innerHTML = "收起";
+          }
+        },
+      });
+    }
 
   }
 

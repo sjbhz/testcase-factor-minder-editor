@@ -42,7 +42,7 @@ require('marked')
 require('kity')
 
 // require('../node_modules/hotbox/hotbox.js')
-require('../../../hotbox/hotbox.js')  // 引入hotBox不用打包直接引入? 修改后不生效?
+require('../../../hotbox/hotbox.js')  // 引入hotBox不用打包直接引入 // 也可直接引用hotbox.min.js
 // require('../node_modules/kityminder-core/dist/kityminder.core.js')
 require('../../../kityminder-core/dist/kityminder.core.js')
 

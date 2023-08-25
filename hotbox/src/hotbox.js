@@ -252,13 +252,13 @@ define(function(require, exports, module) {
         addElementClass($state, stateName);
         addElementClass($center, 'center');
         addElementClass($ring, 'ring');
-        addElementClass($ringShape, 'ring-shape');
+        // addElementClass($ringShape, 'ring-shape');
         addElementClass($top, 'top');
         addElementClass($bottom, 'bottom');
 
         // 摆放容器
         appendChild(hotBox.$element, $state);
-        appendChild($state, $ringShape);
+        // appendChild($state, $ringShape);
         appendChild($state, $center);
         appendChild($state, $ring);
         appendChild($state, $top);

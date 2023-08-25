@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 
 import App from './App'
 
+// import '../hotbox/hotbox.css'  //项目直接使用了hotbox.scss，所以不需再引入
+
 import '../lib/VueTestcaseMinderEditor.css'
 import VueTestcaseMinderEditor from '../lib/VueTestcaseMinderEditor.umd.min.js'
 

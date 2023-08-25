@@ -24,7 +24,7 @@ define(function (require, exports, module) {
     // setup everything to go
     setupReciverElement();
     setupFsm();
-    setupHotbox();
+    // setupHotbox();
 
     // expose editText()
     this.editText = editText;
@@ -94,7 +94,7 @@ define(function (require, exports, module) {
     function setupHotbox() {
       hotbox.state('main').button({
         position: 'center',
-        label: '编辑',
+        label: '编辑节点',
         key: 'F2',
         enable: function () {
           return minder.queryCommandState('text') != -1;

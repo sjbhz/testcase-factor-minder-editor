@@ -75,6 +75,10 @@
     ],
     "parserOptions": {
       "parser": "babel-eslint"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/sjbhz/testcase-factor-minder-editor.git"
     }
   }
 }

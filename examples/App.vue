@@ -67,7 +67,6 @@ export default {
     }
   },
   mounted() {
-    //watch 中无法触发变动，则在此添加监听事件
     /*
       localStorage.getItem("inputChangeNode")  编辑节点时将当前节点缓存--- 兼容了鼠标直接点击画布，造成无节点选中
       localStorage.getItem("execCommandName")  操作类型
@@ -82,22 +81,99 @@ export default {
         e,
         minder.getSelectedNode()
       );
-
     });
   },
   methods: {
     // 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
     afterMountEditor() {
-      // let hotbox = window.HotBox;
       let hotboxEditor = window.editor.hotbox;
-      // console.log(
-      //   window,
-      //   this,
-      //   window.minder,
-      //   hotboxEditor
-      // );
+      console.log(
+        window,
+        this,
+        window.minder,
+        hotboxEditor
+      );
       let main = hotboxEditor.state("main");
 
+      this.setInitHoxBox(main);
+      this.setAddtionalHotbox(main);
+    },
+    setInitHoxBox(main) {
+      var runtime = window.editor
+      var fsm = runtime.fsm;
+      var buttons = [
+        "新增子节点:Tab|Insert:AppendChildNode",
+        "新增邻节点:Enter:AppendSiblingNode",
+        "删除节点:Delete|Backspace:RemoveNode"
+      ];
+      // "上级:Shift+Tab|Shift+Insert:AppendParentNode",
+      // "下移节点:Alt+Down:ArrangeDown",
+      // "上移节点:Alt+Up:ArrangeUp",
+      var AppendLock = 0;
+
+      buttons.forEach(function(button) {
+        var parts = button.split(":");
+        var label = parts.shift();
+        var key = parts.shift();
+        var command = parts.shift();
+        main.button({
+          position: "ring",
+          label: label,
+          key: key,
+          action: function() {
+            if (command.indexOf("Append") === 0) {
+              AppendLock++;
+              minder.execCommand(command, "分支主题");
+
+              function afterAppend() {
+                if (!--AppendLock) {
+                  runtime.editText();
+                }
+                minder.off("layoutallfinish", afterAppend);
+              }
+              minder.on("layoutallfinish", afterAppend);
+            } else {
+              minder.execCommand(command);
+              fsm.jump("normal", "command-executed");
+            }
+          },
+          enable: function() {
+            return minder.queryCommandState(command) != -1;
+          }
+        });
+      });
+    },
+    //是否展开--暂时不用
+    setExpandHotbox(main){
+      var runtime = window.editor
+      main.button({
+        position: "ring",
+        key: "/",
+        action: function () {
+          if (!minder.queryCommandState("expand")) {
+            minder.execCommand("expand");
+          } else if (!minder.queryCommandState("collapse")) {
+            minder.execCommand("collapse");
+          }
+        },
+        enable: function () {
+          return (
+            minder.queryCommandState("expand") != -1 ||
+            minder.queryCommandState("collapse") != -1
+          );
+        },
+        beforeShow: function () {
+          if (!minder.queryCommandState("expand")) {
+            // this.$button.children[0].innerHTML = "展开";
+            runtime.$button.children[0].innerHTML = "展开";
+          } else {
+            // this.$button.children[0].innerHTML = "收起";
+            runtime.$button.children[0].innerHTML = "收起";
+          }
+        },
+      });
+    },
+    setAddtionalHotbox(main) {
       main.button({
         position: "ring",
         label: "新建用例",
@@ -117,7 +193,7 @@ export default {
         beforeShow: function() {}
       });
     },
-    // 支持脑图保存按钮
+    // 支持脑图保存按钮--暂时没用
     saveMind() {
       //获取当前页面脑图数据
       let caseJsonPage = this.$refs.minderEditor.getJsonData();

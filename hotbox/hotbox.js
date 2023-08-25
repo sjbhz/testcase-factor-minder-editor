@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Hot Box UI - v1.0.15 - 2023-08-17
+ * Hot Box UI - v1.0.15 - 2023-08-24
  * https://github.com/fex-team/hotbox
  * GitHub: https://github.com/fex-team/hotbox.git 
  * Copyright (c) 2023 Baidu FEX; Licensed BSD
@@ -259,12 +259,12 @@ _p[1] = {
             addElementClass($state, stateName);
             addElementClass($center, "center");
             addElementClass($ring, "ring");
-            addElementClass($ringShape, "ring-shape");
+            // addElementClass($ringShape, 'ring-shape');
             addElementClass($top, "top");
             addElementClass($bottom, "bottom");
             // 摆放容器
             appendChild(hotBox.$element, $state);
-            appendChild($state, $ringShape);
+            // appendChild($state, $ringShape);
             appendChild($state, $center);
             appendChild($state, $ring);
             appendChild($state, $top);

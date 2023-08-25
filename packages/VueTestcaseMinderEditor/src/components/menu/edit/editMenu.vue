@@ -1,24 +1,28 @@
 <template lang="html">
 <div class="menu-container">
   <!-- <save-box v-if="allowEditNode" @saveMind="$emit('saveMind')"></save-box> -->
-<!--  撤销回退、重做-->
+<!-- 撤销回退、重做 -->
   <back-and-right></back-and-right>
-
+<!-- 展开 -->
   <expand></expand>
-  <selection></selection>
+  <!-- 全选 -->
+  <!-- <selection></selection> -->
   <insert-box v-if="allowEditNode"></insert-box>
   <move-box v-if="allowEditNode"></move-box>
   <edit-del v-if="allowEditNode"></edit-del>
-  <!--  查询、过滤-->
-  <search></search>
-  <!--    超链接-->
-  <hyberlink v-if="allowEditNode"></hyberlink>
-  <node-box v-if="allowEditNode"></node-box>
+  <!-- 查询、过滤 -->
+  <!-- <search></search> -->
+  <!-- 超链接 -->
+  <!-- <hyberlink v-if="allowEditNode"></hyberlink> -->
+  <!-- 备注 -->
+  <!-- <node-box v-if="allowEditNode"></node-box> -->
+  <!-- 原优先级标签P0,P1 -->
   <!-- <sequence-box v-if="allowEditPriority"></sequence-box> -->
+   <!-- 原progress标签 -->
   <!-- <progress-box></progress-box> -->
-  <!--  自定义标签-->
+  <!-- 自定义标签 -->
   <!-- <resource-edit v-if="allowEditLabel"></resource-edit> -->
-  <!--测试结果登记-->
+  <!-- 测试结果登记 -->
   <!-- <result-box v-if="allowEditResult"></result-box> -->
   <!-- 添加测试点TP等标签 -->
   <stage-box v-if="allowEditPriority" @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)"></stage-box>
