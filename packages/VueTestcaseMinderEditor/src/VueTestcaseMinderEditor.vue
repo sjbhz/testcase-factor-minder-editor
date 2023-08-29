@@ -123,6 +123,7 @@ export default {
       deep: true,
       handler(val) {
         //没监听到？
+        console.log('initJson---',val)
         this.minder.importJson(val)
       }
     },
@@ -360,7 +361,8 @@ template {
 
 .vue-testcase-minder-editor-container {
   position: relative;
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 100px); */
+  height: calc(100vh - 20px);
 }
 
 .vue-testcase-minder-editor-container.full-screen {
