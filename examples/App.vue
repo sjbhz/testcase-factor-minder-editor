@@ -11,7 +11,11 @@
       :allowEditResult="editMode"
       :allowEditNode="editMode"
     ></VueTestcaseMinderEditor>
-
+    <button @click="clicUP">放大</button>
+    <button>缩小</button>
+    <button>拖拽</button>
+    <button>定位根节点</button>
+    <button>导航器</button>
     <!-- <button :style="{left: '0px'}" v-on:click="logCurrentData">打印当前用例 json 至 console 日志</button>
     <button :style="{left: '0px'}" v-on:click="toggleEditMode">{{ buttonText }}</button>-->
   </div>
@@ -94,6 +98,10 @@ export default {
     });
   },
   methods: {
+    // 放大
+    clicUP(){
+
+    },
     // 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
     afterMountEditor() {
       let hotboxEditor = window.editor.hotbox;

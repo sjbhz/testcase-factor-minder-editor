@@ -145,7 +145,8 @@ define(function(require, exports, module) {
                   result = cmd.execute.apply(cmd, [me].concat(cmdArgs));
 
                     this._fire(new MinderEvent('execCommand', eventParams, false));
-
+                    // console.log('execCommand--======',eventParams.commandName)
+                    localStorage.setItem('execCommandName',eventParams.commandName)
                     if (cmd.isContentChanged()) {
                         this._firePharse(new MinderEvent('contentchange'));
                     }

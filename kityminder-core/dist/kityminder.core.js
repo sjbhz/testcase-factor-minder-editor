@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2023-08-29
+ * Kity Minder Core - v1.4.50 - 2023-08-30
  * https://github.com/fex-team/kityminder-core
  * GitHub: https://github.com/fex-team/kityminder-core.git 
  * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
@@ -535,6 +535,8 @@ _p[9] = {
                         this._fire(new MinderEvent("preExecCommand", eventParams, false));
                         result = cmd.execute.apply(cmd, [ me ].concat(cmdArgs));
                         this._fire(new MinderEvent("execCommand", eventParams, false));
+                        // console.log('execCommand--======',eventParams.commandName)
+                        localStorage.setItem("execCommandName", eventParams.commandName);
                         if (cmd.isContentChanged()) {
                             this._firePharse(new MinderEvent("contentchange"));
                         }
@@ -4869,6 +4871,8 @@ _p[45] = {
                 this._minder.layout(300);
                 this._leaveDragMode();
                 this._minder.fire("contentchange");
+                // console.log('contentchange=====dragtree')
+                localStorage.setItem("dragtree", true);
             },
             // 进入拖放模式：
             //    1. 计算拖放源和允许的拖放目标
@@ -6070,13 +6074,13 @@ _p[53] = {
         var Module = _p.r(20);
         var Renderer = _p.r(27);
         /**
-   * @command AppendChildNode
-   * @description 添加子节点到选中的节点中
-   * @param {string|object} textOrData 要插入的节点的文本或数据
-   * @state
-   *    0: 当前有选中的节点
-   *   -1: 当前没有选中的节点
-   */
+     * @command AppendChildNode
+     * @description 添加子节点到选中的节点中
+     * @param {string|object} textOrData 要插入的节点的文本或数据
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
         var AppendChildCommand = kity.createClass("AppendChildCommand", {
             base: Command,
             execute: function(km, text) {
@@ -6085,7 +6089,6 @@ _p[53] = {
                     return null;
                 }
                 var node = km.createNode(text, parent);
-                console.log("node---AppendChildCommand", node);
                 km.select(node, true);
                 if (parent.isExpanded()) {
                     node.render();
@@ -6101,13 +6104,13 @@ _p[53] = {
             }
         });
         /**
-   * @command AppendSiblingNode
-   * @description 添加选中的节点的兄弟节点
-   * @param {string|object} textOrData 要添加的节点的文本或数据
-   * @state
-   *    0: 当前有选中的节点
-   *   -1: 当前没有选中的节点
-   */
+     * @command AppendSiblingNode
+     * @description 添加选中的节点的兄弟节点
+     * @param {string|object} textOrData 要添加的节点的文本或数据
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
         var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
             base: Command,
             execute: function(km, text) {
@@ -6128,12 +6131,12 @@ _p[53] = {
             }
         });
         /**
-   * @command RemoveNode
-   * @description 移除选中的节点
-   * @state
-   *    0: 当前有选中的节点
-   *   -1: 当前没有选中的节点
-   */
+     * @command RemoveNode
+     * @description 移除选中的节点
+     * @state
+     *    0: 当前有选中的节点
+     *   -1: 当前没有选中的节点
+     */
         var RemoveNodeCommand = kity.createClass("RemoverNodeCommand", {
             base: Command,
             execute: function(km) {

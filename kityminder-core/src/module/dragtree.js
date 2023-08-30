@@ -168,7 +168,9 @@ define(function(require, exports, module) {
             this._minder.layout(300);
             this._leaveDragMode();
             this._minder.fire('contentchange');
-        },
+            // console.log('contentchange=====dragtree')
+            localStorage.setItem('dragtree',true)
+          },
 
         // 进入拖放模式：
         //    1. 计算拖放源和允许的拖放目标
