@@ -1,8 +1,8 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2023-08-19
+ * Kity Minder Core - v1.4.50 - 2023-08-29
  * https://github.com/fex-team/kityminder-core
- * GitHub: https://github.com/fex-team/kityminder-core.git
+ * GitHub: https://github.com/fex-team/kityminder-core.git 
  * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
@@ -515,8 +515,6 @@ _p[9] = {
          * @param {argument} args 要传递给命令的其它参数
          */
             execCommand: function(name) {
-              // console.log('execCommand=====core',name)
-              localStorage.setItem('execCommandName', name)
                 if (!name) return null;
                 name = name.toLowerCase();
                 var cmdArgs = [].slice.call(arguments, 1), cmd, stoped, result, eventParams;
@@ -814,7 +812,7 @@ _p[12] = {
                 return JSON.parse(JSON.stringify(json));
             },
             /**
-         * function Text2Children(MinderNode, String)
+         * function Text2Children(MinderNode, String) 
          * @param {MinderNode} node 要导入数据的节点
          * @param {String} text 导入的text数据
          * @Desc: 用于批量插入子节点，并不会修改被插入的父节点
@@ -827,7 +825,7 @@ _p[12] = {
          *              wereww
          *          12314
          *      1231412
-         *      13123
+         *      13123    
          */
             Text2Children: function(node, text) {
                 if (!(node instanceof kityminder.Node)) {
@@ -6072,13 +6070,13 @@ _p[53] = {
         var Module = _p.r(20);
         var Renderer = _p.r(27);
         /**
-     * @command AppendChildNode
-     * @description 添加子节点到选中的节点中
-     * @param {string|object} textOrData 要插入的节点的文本或数据
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command AppendChildNode
+   * @description 添加子节点到选中的节点中
+   * @param {string|object} textOrData 要插入的节点的文本或数据
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var AppendChildCommand = kity.createClass("AppendChildCommand", {
             base: Command,
             execute: function(km, text) {
@@ -6087,6 +6085,7 @@ _p[53] = {
                     return null;
                 }
                 var node = km.createNode(text, parent);
+                console.log("node---AppendChildCommand", node);
                 km.select(node, true);
                 if (parent.isExpanded()) {
                     node.render();
@@ -6102,13 +6101,13 @@ _p[53] = {
             }
         });
         /**
-     * @command AppendSiblingNode
-     * @description 添加选中的节点的兄弟节点
-     * @param {string|object} textOrData 要添加的节点的文本或数据
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command AppendSiblingNode
+   * @description 添加选中的节点的兄弟节点
+   * @param {string|object} textOrData 要添加的节点的文本或数据
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var AppendSiblingCommand = kity.createClass("AppendSiblingCommand", {
             base: Command,
             execute: function(km, text) {
@@ -6129,12 +6128,12 @@ _p[53] = {
             }
         });
         /**
-     * @command RemoveNode
-     * @description 移除选中的节点
-     * @state
-     *    0: 当前有选中的节点
-     *   -1: 当前没有选中的节点
-     */
+   * @command RemoveNode
+   * @description 移除选中的节点
+   * @state
+   *    0: 当前有选中的节点
+   *   -1: 当前没有选中的节点
+   */
         var RemoveNodeCommand = kity.createClass("RemoverNodeCommand", {
             base: Command,
             execute: function(km) {
@@ -6951,6 +6950,7 @@ _p[58] = {
                     }
                     // text.setX(paddingX).fill(color.dec('l', 70));
                     text.setX(paddingX).fill("#000");
+                    //固定字体颜色
                     rect = this.rect;
                     rect.setPosition(0, box.y - paddingY);
                     this.width = Math.round(box.width + paddingX * 2);

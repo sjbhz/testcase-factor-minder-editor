@@ -1,9 +1,11 @@
 <template lang="html">
 <div class="menu-container">
   <!-- <save-box v-if="allowEditNode" @saveMind="$emit('saveMind')"></save-box> -->
-<!-- 撤销回退、重做 -->
-  <back-and-right></back-and-right>
-<!-- 展开 -->
+  <!-- 撤销回退、重做 -->
+  <!-- <back-and-right></back-and-right> -->
+  <!-- 整理布局 -->
+  <arrange></arrange>
+   <!-- 展开 -->
   <expand></expand>
   <!-- 全选 -->
   <!-- <selection></selection> -->
@@ -46,6 +48,7 @@ import Search from "./search/search";
 import hyberlink from "./hyberlink";
 import backAndRight from "./backAndRight";
 import resultBox from "./resultBox";
+import arrange from "../view/arrange";
 
 import { mapGetters } from "vuex";
 
@@ -66,7 +69,8 @@ export default {
     resourceEdit,
     hyberlink,
     backAndRight,
-    resultBox
+    resultBox,
+    arrange
   },
   computed: {
     ...mapGetters("caseEditorStore", {

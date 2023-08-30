@@ -5,6 +5,7 @@
       @saveMind="saveMind"
       :initJson="initJson"
       ref="minderEditor"
+      :isNavOpen="isNavOpenSmall"
       :allowEditPriority="editMode"
       :allowEditLabel="editMode"
       :allowEditResult="editMode"
@@ -12,7 +13,7 @@
     ></VueTestcaseMinderEditor>
 
     <!-- <button :style="{left: '0px'}" v-on:click="logCurrentData">打印当前用例 json 至 console 日志</button>
-    <button :style="{left: '0px'}" v-on:click="toggleEditMode">{{ buttonText }}</button> -->
+    <button :style="{left: '0px'}" v-on:click="toggleEditMode">{{ buttonText }}</button>-->
   </div>
 </template>
 
@@ -47,6 +48,7 @@ export default {
           ]
         }
       },
+      isNavOpenSmall: false,
       editMode: true
     };
   },
@@ -82,24 +84,27 @@ export default {
         minder.getSelectedNode()
       );
     });
+
+    // 监听快捷键事件，未放在脑图源码内定义
+    document.addEventListener("mousedown", e => {
+      // console.log("mousedown----", minder.getSelectedNode());
+    });
+    document.addEventListener("mouseup", e => {
+      // console.log("mouseup----");
+    });
   },
   methods: {
     // 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
     afterMountEditor() {
       let hotboxEditor = window.editor.hotbox;
-      console.log(
-        window,
-        this,
-        window.minder,
-        hotboxEditor
-      );
+      console.log(window, this, window.minder, hotboxEditor);
       let main = hotboxEditor.state("main");
 
       this.setInitHoxBox(main);
       this.setAddtionalHotbox(main);
     },
     setInitHoxBox(main) {
-      var runtime = window.editor
+      var runtime = window.editor;
       var fsm = runtime.fsm;
       var buttons = [
         "新增子节点:Tab|Insert:AppendChildNode",
@@ -144,25 +149,25 @@ export default {
       });
     },
     //是否展开--暂时不用
-    setExpandHotbox(main){
-      var runtime = window.editor
+    setExpandHotbox(main) {
+      var runtime = window.editor;
       main.button({
         position: "ring",
         key: "/",
-        action: function () {
+        action: function() {
           if (!minder.queryCommandState("expand")) {
             minder.execCommand("expand");
           } else if (!minder.queryCommandState("collapse")) {
             minder.execCommand("collapse");
           }
         },
-        enable: function () {
+        enable: function() {
           return (
             minder.queryCommandState("expand") != -1 ||
             minder.queryCommandState("collapse") != -1
           );
         },
-        beforeShow: function () {
+        beforeShow: function() {
           if (!minder.queryCommandState("expand")) {
             // this.$button.children[0].innerHTML = "展开";
             runtime.$button.children[0].innerHTML = "展开";
@@ -170,7 +175,7 @@ export default {
             // this.$button.children[0].innerHTML = "收起";
             runtime.$button.children[0].innerHTML = "收起";
           }
-        },
+        }
       });
     },
     setAddtionalHotbox(main) {

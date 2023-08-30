@@ -4,12 +4,12 @@
       <div :class="{selected:switchShow.showEditMenu}">
         <a href="javascritp:;" class="btn-showEditMenu" @click="showMenu">思维导图</a>
       </div>
-      <div :class="{selected:switchShow.showViewMenu}">
+      <!-- <div :class="{selected:switchShow.showViewMenu}">
         <a href="javascritp:;" class="btn-showViewMenu" @click="showMenu">外观样式</a>
-      </div>
+      </div> -->
       <div class="rightCol">
         <span class="selected-node-count-text">{{selectedNodeCountText}}</span>
-        <el-button class="full-screen-button" icon="el-icon-full-screen" @click="toggleFullScreen">{{fullScreenText}}</el-button>
+        <!-- <el-button class="full-screen-button" icon="el-icon-full-screen" @click="toggleFullScreen">{{fullScreenText}}</el-button> -->
       </div>
     </div>
 
@@ -17,9 +17,9 @@
       <div class="mind-tab-panel" v-show="switchShow.showEditMenu">
         <edit-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')"></edit-menu>
       </div>
-      <div class="mind-tab-panel" v-show="switchShow.showViewMenu">
+      <!-- <div class="mind-tab-panel" v-show="switchShow.showViewMenu">
         <view-menu></view-menu>
-      </div>
+      </div> -->
     </div>
   </header>
 </template>
@@ -40,7 +40,7 @@
           showEditMenu: true,
           showViewMenu: false
         },
-        fullScreenText: "全屏",
+        fullScreenText: "退出全屏",
         selectedNodeCount: 0,
         selectedNodeText: ''
       }
@@ -87,7 +87,8 @@
       },
       toggleFullScreen: function() {
         // 实际生效
-        this.setConfig({'isFullScreen': !this.config.isFullScreen})
+        // this.setConfig({'isFullScreen': !this.config.isFullScreen})
+        this.setConfig({'isFullScreen': true})
 
         this.fullScreenText = this.fullScreenText.indexOf("退出") === -1 ? "退出全屏": "全屏"
       }

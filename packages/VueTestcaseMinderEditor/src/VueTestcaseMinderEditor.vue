@@ -12,6 +12,7 @@
     class="vue-testcase-minder-editor-container"
     @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)"
     @saveMind="$emit('saveMind')"
+    :isNavOpen="isNavOpen"
     :allowEditPriority="allowEditPriority"
     :allowEditLabel="allowEditLabel"
     :allowEditResult="allowEditResult"
@@ -79,6 +80,10 @@ export default {
             "version": "1.4.43"
         }
       }
+    },
+    isNavOpen: {
+      type: Boolean,
+      default: false
     },
     allowEditPriority: {
       type: Boolean,

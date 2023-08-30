@@ -3,7 +3,7 @@
   <div :class="computeFullScreenClass">
     <header-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')"></header-menu>
     <main-editor></main-editor>
-    <navigator></navigator>
+    <navigator :isNavOpen="isNavOpen"></navigator>
 
     <!-- note markdown 挂件 -->
     <div
@@ -73,6 +73,10 @@
       }
     },
     props: {
+      isNavOpen: {
+      type: Boolean,
+      default: false
+      },
       allowEditPriority: {
         type: Boolean,
         default: true

@@ -25,9 +25,9 @@
     <div class="nav-btn nav-trigger" :class="{'active' : isNavOpen}" @click="toggleNavOpen" title="导航器">
       <div class="icon"></div>
     </div>
-    <div class="nav-btn" title="全屏/恢复" @click="fullScreenToggle">
+    <!-- <div class="nav-btn" title="全屏/恢复" @click="fullScreenToggle">
     <i class="el-icon-full-screen" style="font-size: 25px;" />
-    </div>
+    </div> -->
   </div>
   <div class="nav-previewer" v-show="isNavOpen"></div>
 </div>
@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       zoom: 100,
-      isNavOpen: true,
+      // isNavOpen: false,
       $previewNavigator: "",
       paper: "",
       nodeThumb: "",
@@ -57,6 +57,12 @@ export default {
       visibleView: "",
       pathHandler: "",
     };
+  },
+  props: {
+    isNavOpen: {
+        type: Boolean,
+        default: false
+    },
   },
   computed: {
     ...mapGetters('caseEditorStore', {
