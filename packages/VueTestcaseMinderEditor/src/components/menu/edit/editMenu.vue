@@ -9,9 +9,9 @@
   <expand></expand>
   <!-- 全选 -->
   <!-- <selection></selection> -->
-  <insert-box v-if="allowEditNode"></insert-box>
+  <insert-box v-if="allowEditNode" @handleAppendSiblingNode="$emit('handleAppendSiblingNode')" @handleAppendChildNode="$emit('handleAppendChildNode')" ></insert-box>
   <move-box v-if="allowEditNode"></move-box>
-  <edit-del v-if="allowEditNode"></edit-del>
+  <edit-del v-if="allowEditNode" @handleDel="$emit('handleDel')"></edit-del>
   <!-- 查询、过滤 -->
   <!-- <search></search> -->
   <!-- 超链接 -->

@@ -1,7 +1,7 @@
 <template>
   <!--<div class="main-container">-->
   <div :class="computeFullScreenClass">
-    <header-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')"></header-menu>
+    <header-menu @changeNodeLabel="(currentNodeTemp)=>$emit('changeNodeLabel',currentNodeTemp)" @saveMind="$emit('saveMind')" @handleAppendSiblingNode="$emit('handleAppendSiblingNode')"  @handleAppendChildNode="$emit('handleAppendChildNode')" @handleDel="$emit('handleDel')"></header-menu>
     <main-editor></main-editor>
     <navigator :isNavOpen="isNavOpen"></navigator>
 

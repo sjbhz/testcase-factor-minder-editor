@@ -33,7 +33,7 @@ export default {
     edit() {
       this.minder.queryCommandState('text') === -1 || this.editNode();
     },
-    del() {
+    del0() {
       this.minder.queryCommandState('RemoveNode') === -1 || this.minder.execCommand('RemoveNode');
     },
     editNode() {
@@ -45,6 +45,10 @@ export default {
       receiverElement.innerText = this.minder.queryCommandValue('text');
       fsm.jump('input', 'input-request');
       receiver.selectAll();
+    },
+    // 20230831----方法暴露出去
+    del() {
+      this.$emit('handleDel')
     }
   }
 }

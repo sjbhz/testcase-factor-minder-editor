@@ -1,72 +1,80 @@
 <template>
-<div class="insert-group">
-  <div class="insert-child-box menu-btn" :disabled="disabled1" @click="appendChildNode">
-    <i class="tab-icons"></i>
-    <span>插入下级</span>
+  <div class="insert-group">
+    <div class="insert-child-box menu-btn" :disabled="disabled1" @click="appendChildNode">
+      <i class="tab-icons"></i>
+      <span>插入下级</span>
+    </div>
+    <!-- <div class="insert-parent-box menu-btn" :disabled="disabled2" @click="appendParentNode">
+      <i class="tab-icons"></i>
+      <span>插入上级</span>
+    </div>
+    <div class="insert-sibling-box menu-btn" :disabled="disabled3" @click="appendSiblingNode">
+      <i class="tab-icons"></i>
+      <span>插入同级</span>
+    </div> -->
+    <div class="insert-sibling-box menu-btn" :disabled="disabled3" @click="appendSiblingNode">
+      <i class="tab-icons"></i>
+      <span>插入同级</span>
+    </div>
   </div>
-  <div class="insert-parent-box menu-btn" :disabled="disabled2" @click="appendParentNode">
-    <i class="tab-icons"></i>
-    <span>插入上级</span>
-  </div>
-  <div class="insert-sibling-box menu-btn" :disabled="disabled3" @click="appendSiblingNode">
-    <i class="tab-icons"></i>
-    <span>插入同级</span>
-  </div>
-</div>
 </template>
 
 <script>
-import {
-  mapGetters
-} from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  name: 'insertBox',
+  name: "insertBox",
   data() {
-    return {
-
-    }
+    return {};
   },
   computed: {
-    ...mapGetters('caseEditorStore', [
-      'getMinder'
-    ]),
+    ...mapGetters("caseEditorStore", ["getMinder"]),
     disabled1() {
       var minder = this.getMinder;
       var bool = false;
       if (minder.queryCommandState) {
-        bool = minder.queryCommandState('AppendChildNode') === -1;
+        bool = minder.queryCommandState("AppendChildNode") === -1;
       }
-      return bool
+      return bool;
     },
     disabled2() {
       var minder = this.getMinder;
       var bool = false;
       if (minder.queryCommandState) {
-        bool = minder.queryCommandState('AppendParentNode') === -1;
+        bool = minder.queryCommandState("AppendParentNode") === -1;
       }
-      return bool
+      return bool;
     },
     disabled3() {
       var minder = this.getMinder;
       var bool = false;
       if (minder.queryCommandState) {
-        bool = minder.queryCommandState('AppendSiblingNode') === -1;
+        bool = minder.queryCommandState("AppendSiblingNode") === -1;
       }
-      return bool
+      return bool;
     }
   },
   methods: {
-    appendChildNode() {
+    appendChildNode0() {
       var minder = this.getMinder;
-      minder.queryCommandState('AppendChildNode') === -1 || minder.execCommand('AppendChildNode')
+      minder.queryCommandState("AppendChildNode") === -1 ||
+        minder.execCommand("AppendChildNode");
     },
     appendParentNode() {
       var minder = this.getMinder;
-      minder.queryCommandState('AppendParentNode') === -1 || minder.execCommand('AppendParentNode')
+      minder.queryCommandState("AppendParentNode") === -1 ||
+        minder.execCommand("AppendParentNode");
+    },
+    appendSiblingNode0() {
+      var minder = this.getMinder;
+      minder.queryCommandState("AppendSiblingNode") === -1 ||
+        minder.execCommand("AppendSiblingNode");
+    },
+    // 20230831-----方法暴露出去
+    appendChildNode() {
+      this.$emit("handleAppendChildNode");
     },
     appendSiblingNode() {
-      var minder = this.getMinder;
-      minder.queryCommandState('AppendSiblingNode') === -1 || minder.execCommand('AppendSiblingNode')
+      this.$emit("handleAppendSiblingNode");
     }
   }
 }

@@ -2,7 +2,11 @@
   <div id="app">
     <VueTestcaseMinderEditor
       @afterMountEditor="afterMountEditor"
+      @changeNodeLabel="changeNodeLabel"
       @saveMind="saveMind"
+      @handleAppendSiblingNode="handleAppendSiblingNode"
+      @handleAppendChildNode="handleAppendChildNode"
+      @handleDel="handleDel"
       :initJson="initJson"
       ref="minderEditor"
       :isNavOpen="isNavOpenSmall"
@@ -81,6 +85,18 @@ export default {
     */
     let editor = window.editor;
     editor.minder.on("contentchange", function(e) {
+      // console.log(
+      //   "beforeEcontentchange===",
+      //   localStorage.getItem("beforeExecCommandName"),
+      //   e,
+      //   minder.getSelectedNode()
+      // );
+      // console.log(
+      //   "preEcontentchange===",
+      //   localStorage.getItem("preExecCommandName"),
+      //   e,
+      //   minder.getSelectedNode()
+      // );
       console.log(
         "contentchange===",
         localStorage.getItem("execCommandName"),
@@ -99,8 +115,38 @@ export default {
   },
   methods: {
     // 放大
-    clicUP(){
+    clicUP() {},
+    setNewForcs(minder) {
+      function afterAppend() {
+        window.editor.editText();
+        minder.off("layoutallfinish", afterAppend);
+      }
+      minder.on("layoutallfinish", afterAppend);
+    },
 
+    // header 插入同级
+    handleAppendSiblingNode() {
+      // AppendLock++;
+      minder.execCommand("AppendSiblingNode", "分支主题");
+      this.setNewForcs(minder);
+    },
+    // header 插入子级
+    handleAppendChildNode() {
+      minder.execCommand("AppendChildNode", "分支主题");
+      function afterAppend() {
+        window.editor.editText();
+        minder.off("layoutallfinish", afterAppend);
+      }
+      minder.on("layoutallfinish", afterAppend);
+    },
+    // header 删除
+    handleDel() {
+      console.log("RemoveNode===", minder.getSelectedNode());
+      minder.execCommand('RemoveNode');
+      window.editor.fsm.jump("normal", "command-executed");
+    },
+    changeNodeLabel(currentNodeTemp) {
+      console.log("currentNodeTemp--", currentNodeTemp);
     },
     // 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
     afterMountEditor() {
@@ -146,6 +192,7 @@ export default {
               }
               minder.on("layoutallfinish", afterAppend);
             } else {
+              console.log("executed===", minder.getSelectedNode());
               minder.execCommand(command);
               fsm.jump("normal", "command-executed");
             }

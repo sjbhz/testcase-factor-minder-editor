@@ -16,13 +16,13 @@
     <div class="nav-btn zoom-out" @click="zoomOut" title="缩小" :class="{ 'active' : zoomRadioOut }">
       <div class="icon"></div>
     </div>
-    <div class="nav-btn hand" @click="hand" title="拖拽" :class="{ 'active' : enableHand }">
+    <div class="nav-btn nav-trigger" :class="{'active' : isNavOpen}" @click="toggleNavOpen" title="导航器">
       <div class="icon"></div>
     </div>
     <div class="nav-btn camera" @click="locateToOrigin" title="定位根节点">
       <div class="icon"></div>
     </div>
-    <div class="nav-btn nav-trigger" :class="{'active' : isNavOpen}" @click="toggleNavOpen" title="导航器">
+    <div class="nav-btn hand" @click="hand" title="拖拽" :class="{ 'active' : enableHand }">
       <div class="icon"></div>
     </div>
     <!-- <div class="nav-btn" title="全屏/恢复" @click="fullScreenToggle">
