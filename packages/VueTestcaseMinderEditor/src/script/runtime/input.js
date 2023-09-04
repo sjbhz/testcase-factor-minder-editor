@@ -115,6 +115,7 @@ define(function (require, exports, module) {
       if (!node) {
         return;
       }
+      localStorage.setItem('execCommandName', 'editText')
       var textContainer = receiverElement;
       receiverElement.innerText = "";
       if (node.getData('font-weight') === 'bold') {
@@ -395,6 +396,7 @@ define(function (require, exports, module) {
     }
 
     function exitInputMode() {
+      localStorage.setItem('execCommandName', 'exitInputMode')
       receiverElement.classList.remove('input');
       receiver.selectAll();
     }

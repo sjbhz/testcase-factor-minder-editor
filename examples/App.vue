@@ -97,12 +97,37 @@ export default {
       //   e,
       //   minder.getSelectedNode()
       // );
-      console.log(
-        "contentchange===",
-        localStorage.getItem("execCommandName"),
-        e,
-        minder.getSelectedNode()
-      );
+      let execCommandNameTemp = localStorage.getItem("execCommandName");
+        let currentNode = minder.getSelectedNode();
+      console.log("execCommandNameTemp---", execCommandNameTemp);
+        if (execCommandNameTemp == "inputChange") {
+          // 编辑节点
+          // _this.handleEditSceneNode(currentNode);
+        } else if (execCommandNameTemp == "priority") {
+          // 点击标签
+          // _this.handleEditSceneNode(currentNode);
+        } else if (execCommandNameTemp == "appendchildnode") {
+          // 添加子节点
+          // _this.handleAddSceneNode(currentNode);
+        } else if (execCommandNameTemp == "appendsiblingnode") {
+          // 添加同级节点
+          // _this.handleAddNeighbor(currentNode);
+        } else if (execCommandNameTemp == "removenode") {
+          // 删除节点---在button处理-忽略
+        } else if (
+          execCommandNameTemp == "movetoparent" ||
+          execCommandNameTemp == "arrange"
+        ) {
+          // 拖动到某父节点、拖动兄弟节点-----会触发多次 ===》处理：监听dragtree
+          // _this.handleDragSceneNode(currentNode, execCommandNameTemp);
+        } else if (
+          execCommandNameTemp == "arrangeup" ||
+          execCommandNameTemp == "arrangedown"
+        ) {
+          // 上移/下移
+          // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
+        }
+      // 在contentchange中监听input-change事件太晚了，需要找到触发事件=====20230904
     });
 
     // 监听快捷键事件，未放在脑图源码内定义
@@ -142,7 +167,7 @@ export default {
     // header 删除
     handleDel() {
       console.log("RemoveNode===", minder.getSelectedNode());
-      minder.execCommand('RemoveNode');
+      minder.execCommand("RemoveNode");
       window.editor.fsm.jump("normal", "command-executed");
     },
     changeNodeLabel(currentNodeTemp) {
@@ -241,6 +266,52 @@ export default {
         action: function() {
           let currentNode = minder.getSelectedNode();
           console.log("currentNode---", currentNode);
+        },
+        enable: function() {
+          let currentNode = minder.getSelectedNode(); //获取当前点击的node
+          if (currentNode.data.priority && currentNode.data.priority == 2) {
+            //如果是 TP 则可新建用例，其他都不给建
+            return true;
+          }
+          return false;
+        },
+        beforeShow: function() {}
+      });
+    },
+    setEditHotbox(main) {
+      main.button({
+        position: "ring",
+        label: "编辑节点",
+        key: "F2",
+        action: function() {
+          var runtime = window.editor;
+          var fsm = runtime.fsm;
+          var receiver = runtime.receiver;
+          var receiverElement = receiver.element;
+          let node = minder.getSelectedNode();
+          console.log("currentNode---", currentNode);
+          if (!node) {
+            return;
+          }
+          var textContainer = receiverElement;
+          receiverElement.innerText = "";
+          if (node.getData("font-weight") === "bold") {
+            var b = document.createElement("b");
+            textContainer.appendChild(b);
+            textContainer = b;
+          }
+          if (node.getData("font-style") === "italic") {
+            var i = document.createElement("i");
+            textContainer.appendChild(i);
+            textContainer = i;
+          }
+          textContainer.innerText = minder.queryCommandValue("text");
+
+          if (isGecko) {
+            receiver.fixFFCaretDisappeared();
+          }
+          fsm.jump("input", "input-request");
+          receiver.selectAll();
         },
         enable: function() {
           let currentNode = minder.getSelectedNode(); //获取当前点击的node

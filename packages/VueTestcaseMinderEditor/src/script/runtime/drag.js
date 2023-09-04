@@ -28,11 +28,13 @@ define(function (require, exports, module) {
       // when jumped to drag mode, enter
       fsm.when('* -> drag', function () {
         // now is drag mode
+        localStorage.setItem('dragtree', 'dragmode')  //覆盖kityminder.core中的设置 （kityminder.core重得dragtree可删除）
       });
 
       fsm.when('drag -> *', function (exit, enter, reason) {
         if (reason == 'drag-finish') {
           // now exit drag mode
+          localStorage.setItem('dragtree', 'dragfinish') //覆盖kityminder.core中的设置
         }
       });
     }

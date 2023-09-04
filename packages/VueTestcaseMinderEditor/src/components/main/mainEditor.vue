@@ -25,7 +25,7 @@
       var editor = window.editor = new Editor(el);
       this.setEditor(editor);
 
-
+      // 数据存到localStorage --20230821
       if (window.localStorage.mindText) {
         editor.minder.importJson(JSON.parse(window.localStorage.mindText));
       }
