@@ -140,7 +140,7 @@ define(function(require, exports, module) {
                 this._minder.layout(-1);
 
                 this._minder.execCommand('movetoparent', this._dragSources, this._dropSucceedTarget);
-
+                localStorage.setItem('dragtree',"movetoparent")
             } else if (this._orderSucceedHint) {
 
                 var hint = this._orderSucceedHint;
@@ -161,6 +161,7 @@ define(function(require, exports, module) {
                 hint.node.setLayoutOffset(null);
 
                 this._minder.execCommand('arrange', index);
+                localStorage.setItem('dragtree',"arrange")
                 this._renderOrderHint(null);
             } else {
                 this._minder.fire('savescene');
@@ -169,7 +170,7 @@ define(function(require, exports, module) {
             this._leaveDragMode();
             this._minder.fire('contentchange');
             // console.log('contentchange=====dragtree')
-            localStorage.setItem('dragtree',true)
+            // localStorage.setItem('dragtree',true)
           },
 
         // 进入拖放模式：

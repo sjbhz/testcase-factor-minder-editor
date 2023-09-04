@@ -1,6 +1,6 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2023-08-30
+ * Kity Minder Core - v1.4.50 - 2023-09-04
  * https://github.com/fex-team/kityminder-core
  * GitHub: https://github.com/fex-team/kityminder-core.git 
  * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
@@ -4850,6 +4850,7 @@ _p[45] = {
                     });
                     this._minder.layout(-1);
                     this._minder.execCommand("movetoparent", this._dragSources, this._dropSucceedTarget);
+                    localStorage.setItem("dragtree", "movetoparent");
                 } else if (this._orderSucceedHint) {
                     var hint = this._orderSucceedHint;
                     var index = hint.node.getIndex();
@@ -4864,6 +4865,7 @@ _p[45] = {
                     if (index > maxIndex && hint.type == "up") index--;
                     hint.node.setLayoutOffset(null);
                     this._minder.execCommand("arrange", index);
+                    localStorage.setItem("dragtree", "arrange");
                     this._renderOrderHint(null);
                 } else {
                     this._minder.fire("savescene");
@@ -4871,8 +4873,6 @@ _p[45] = {
                 this._minder.layout(300);
                 this._leaveDragMode();
                 this._minder.fire("contentchange");
-                // console.log('contentchange=====dragtree')
-                localStorage.setItem("dragtree", true);
             },
             // 进入拖放模式：
             //    1. 计算拖放源和允许的拖放目标

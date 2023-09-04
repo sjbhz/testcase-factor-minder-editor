@@ -85,58 +85,39 @@ export default {
     */
     let editor = window.editor;
     editor.minder.on("contentchange", function(e) {
-      // console.log(
-      //   "beforeEcontentchange===",
-      //   localStorage.getItem("beforeExecCommandName"),
-      //   e,
-      //   minder.getSelectedNode()
-      // );
-      // console.log(
-      //   "preEcontentchange===",
-      //   localStorage.getItem("preExecCommandName"),
-      //   e,
-      //   minder.getSelectedNode()
-      // );
+      let dragtreeTemp = localStorage.getItem("dragtree");
       let execCommandNameTemp = localStorage.getItem("execCommandName");
-        let currentNode = minder.getSelectedNode();
-      console.log("execCommandNameTemp---", execCommandNameTemp);
-        if (execCommandNameTemp == "inputChange") {
-          // 编辑节点
-          // _this.handleEditSceneNode(currentNode);
-        } else if (execCommandNameTemp == "priority") {
-          // 点击标签
-          // _this.handleEditSceneNode(currentNode);
-        } else if (execCommandNameTemp == "appendchildnode") {
-          // 添加子节点
-          // _this.handleAddSceneNode(currentNode);
-        } else if (execCommandNameTemp == "appendsiblingnode") {
-          // 添加同级节点
-          // _this.handleAddNeighbor(currentNode);
-        } else if (execCommandNameTemp == "removenode") {
-          // 删除节点---在button处理-忽略
-        } else if (
-          execCommandNameTemp == "movetoparent" ||
-          execCommandNameTemp == "arrange"
-        ) {
-          // 拖动到某父节点、拖动兄弟节点-----会触发多次 ===》处理：监听dragtree
-          // _this.handleDragSceneNode(currentNode, execCommandNameTemp);
-        } else if (
-          execCommandNameTemp == "arrangeup" ||
-          execCommandNameTemp == "arrangedown"
-        ) {
-          // 上移/下移
-          // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
-        }
-      // 在contentchange中监听input-change事件太晚了，需要找到触发事件=====20230904
+      let currentNode = minder.getSelectedNode();
+      console.log("execCommandNameTemp---",dragtreeTemp, execCommandNameTemp);
+      if (execCommandNameTemp == "inputChange") {
+        // 编辑节点
+        let currentNodeCorrect = localStorage.getItem("inputChangeNode"); // 编辑时的节点
+        // console.log("currentNode----editText", currentNodeCorrect);
+      } else if (execCommandNameTemp == "priority") {
+        // 点击标签
+      } else if (execCommandNameTemp == "appendchildnode") {
+        // 添加子节点
+        // _this.handleAddSceneNode(currentNode);
+      } else if (execCommandNameTemp == "appendsiblingnode") {
+        // 添加同级节点
+        // _this.handleAddNeighbor(currentNode);
+      } else if (execCommandNameTemp == "removenode") {
+        // 删除节点---在button处理-忽略
+      } else if (
+        execCommandNameTemp == "movetoparent" ||
+        execCommandNameTemp == "arrange"
+      ) {
+        // 拖动到某父节点、拖动兄弟节点-----会触发多次 ===》处理：监听dragtree？
+        // _this.handleDragSceneNode(currentNode, execCommandNameTemp);
+      } else if (
+        execCommandNameTemp == "arrangeup" ||
+        execCommandNameTemp == "arrangedown"
+      ) {
+        // 上移/下移
+        // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
+      }
     });
 
-    // 监听快捷键事件，未放在脑图源码内定义
-    document.addEventListener("mousedown", e => {
-      // console.log("mousedown----", minder.getSelectedNode());
-    });
-    document.addEventListener("mouseup", e => {
-      // console.log("mouseup----");
-    });
   },
   methods: {
     // 放大
