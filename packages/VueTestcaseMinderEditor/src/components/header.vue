@@ -2,7 +2,7 @@
   <header>
     <div id="mind_tab">
       <div :class="{selected:switchShow.showEditMenu}">
-        <a href="javascritp:;" class="btn-showEditMenu" @click="showMenu">思维导图</a>
+        <a href="javascritp:;" class="btn-showEditMenu" @click="showMenu" style='background:#e1e1e1'>{{sceneViewName?sceneViewName:'思维导图'}}</a>
       </div>
       <!-- <div :class="{selected:switchShow.showViewMenu}">
         <a href="javascritp:;" class="btn-showViewMenu" @click="showMenu">外观样式</a>
@@ -25,77 +25,80 @@
 </template>
 
 <script>
-  import editMenu from './menu/edit/editMenu'
-  import viewMenu from './menu/view/viewMenu'
-  import {
-    mapMutations,
-    mapGetters
-  } from 'vuex'
+import editMenu from "./menu/edit/editMenu";
+import viewMenu from "./menu/view/viewMenu";
+import { mapMutations, mapGetters } from "vuex";
 
-  export default {
-    name: 'headerVue',
-    data() {
-      return {
-        switchShow: {
-          showEditMenu: true,
-          showViewMenu: false
-        },
-        fullScreenText: "退出全屏",
-        selectedNodeCount: 0,
-        selectedNodeText: ''
-      }
-    },
-    components: {
-      editMenu,
-      viewMenu
-    },
-    computed: {
-      ...mapGetters('caseEditorStore', {
-        'config': 'config',
-        'minder': 'getMinder'
-      }),
-      selectedNodeCountText() {
-        let minder = this.minder
-        let self = this
-        let returnText = ''
-        minder.on && minder.on('interactchange', function() {
-          self.selectedNodeCount = minder.getSelectedNodes().length
+export default {
+  name: "headerVue",
+  data() {
+    return {
+      switchShow: {
+        showEditMenu: true,
+        showViewMenu: false
+      },
+      fullScreenText: "退出全屏",
+      selectedNodeCount: 0,
+      selectedNodeText: ""
+    };
+  },
+  props: {
+    sceneViewName: {
+      type: String,
+      default: ""
+    }
+  },
+  components: {
+    editMenu,
+    viewMenu
+  },
+  computed: {
+    ...mapGetters("caseEditorStore", {
+      config: "config",
+      minder: "getMinder"
+    }),
+    selectedNodeCountText() {
+      let minder = this.minder;
+      let self = this;
+      let returnText = "";
+      minder.on &&
+        minder.on("interactchange", function() {
+          self.selectedNodeCount = minder.getSelectedNodes().length;
           if (self.selectedNodeCount === 1) {
-            self.selectedNodeText = minder.getSelectedNodes()[0].data.text
+            self.selectedNodeText = minder.getSelectedNodes()[0].data.text;
           } else {
-            self.selectedNodeText = ''
+            self.selectedNodeText = "";
           }
         });
-        returnText = "当前选中的节点数：" + self.selectedNodeCount
-        if (self.selectedNodeText) {
-          returnText += " 当前选中节点的文字内容：" + self.selectedNodeText
+      returnText = "当前选中的节点数：" + self.selectedNodeCount;
+      // if (self.selectedNodeText) {
+      //   returnText += " 当前选中节点的文字内容：" + self.selectedNodeText;
+      // }
+      return returnText;
+    }
+  },
+  methods: {
+    ...mapMutations("caseEditorStore", ["setConfig"]),
+    showMenu: function(e) {
+      for (var variable in this.switchShow) {
+        if (this.switchShow.hasOwnProperty(variable)) {
+          this.switchShow[variable] = false;
         }
-        return returnText
-      },
-    },
-    methods: {
-      ...mapMutations('caseEditorStore', [
-        'setConfig'
-      ]),
-      showMenu: function (e) {
-        for (var variable in this.switchShow) {
-          if (this.switchShow.hasOwnProperty(variable)) {
-            this.switchShow[variable] = false
-          }
-        }
-        this['switchShow'][e.target.className.replace('btn-', '')] = true
-      },
-      toggleFullScreen: function() {
-        // 实际生效
-        // this.setConfig({'isFullScreen': !this.config.isFullScreen})
-        this.setConfig({'isFullScreen': true})
-
-        this.fullScreenText = this.fullScreenText.indexOf("退出") === -1 ? "退出全屏": "全屏"
       }
+      this["switchShow"][e.target.className.replace("btn-", "")] = true;
+    },
+    toggleFullScreen: function() {
+      // 实际生效
+      // this.setConfig({'isFullScreen': !this.config.isFullScreen})
+      this.setConfig({ isFullScreen: true });
+
+      this.fullScreenText =
+        this.fullScreenText.indexOf("退出") === -1 ? "退出全屏" : "全屏";
     }
   }
+};
 </script>
 
 <style lang="scss">
-  @import "../style/header.scss";
+@import "../style/header.scss";
 </style>

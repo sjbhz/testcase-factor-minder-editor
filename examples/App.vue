@@ -9,6 +9,9 @@
       @handleDel="handleDel"
       :initJson="initJson"
       ref="minderEditor"
+      :sceneViewName="sceneViewName"
+      :showHeaderFlag="showHeaderFlag"
+      :showNavigatorFlag="showNavigatorFlag"
       :isNavOpen="isNavOpenSmall"
       :allowEditPriority="editMode"
       :allowEditLabel="editMode"
@@ -33,13 +36,16 @@ export default {
       initJson: {
         root: {
           data: {
-            text: "百度产品",
+            text: "百度产品1",
             id: "0"
           },
           children: [
             { data: { text: "新闻", id: "1", resource: ["(3)"] } },
             { data: { text: "网页", id: "2", priority: 1, resource: ["4"] } },
-            { data: { text: "贴吧", id: "3", priority: 2 } },
+            {
+              data: { text: "贴吧", id: "3", priority: 2 },
+              children: [{ data: { text: "ccccc", id: "4", priority: 2 } }]
+            },
             { data: { text: "知道", id: "4", priority: 2 } },
             { data: { text: "音乐", id: "5", priority: 3 } },
             { data: { text: "图片", id: "6", priority: 4 } },
@@ -56,6 +62,9 @@ export default {
           ]
         }
       },
+      sceneViewName: "场景1",
+      showHeaderFlag: true,
+      showNavigatorFlag: true,
       isNavOpenSmall: false,
       editMode: true
     };
@@ -88,7 +97,8 @@ export default {
       let dragtreeTemp = localStorage.getItem("dragtree");
       let execCommandNameTemp = localStorage.getItem("execCommandName");
       let currentNode = minder.getSelectedNode();
-      console.log("execCommandNameTemp---",dragtreeTemp, execCommandNameTemp);
+      let currentNodes = minder.getSelectedNodes(); //选中多个nodes
+      console.log("execCommandNameTemp---", dragtreeTemp, execCommandNameTemp);
       if (execCommandNameTemp == "inputChange") {
         // 编辑节点
         let currentNodeCorrect = localStorage.getItem("inputChangeNode"); // 编辑时的节点
@@ -117,7 +127,6 @@ export default {
         // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
       }
     });
-
   },
   methods: {
     // 放大

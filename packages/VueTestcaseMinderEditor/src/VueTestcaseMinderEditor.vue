@@ -15,6 +15,9 @@
     @handleAppendSiblingNode="$emit('handleAppendSiblingNode')"
     @handleAppendChildNode="$emit('handleAppendChildNode')"
     @handleDel="$emit('handleDel')"
+    :sceneViewName="sceneViewName"
+    :showHeaderFlag="showHeaderFlag"
+    :showNavigatorFlag="showNavigatorFlag"
     :isNavOpen="isNavOpen"
     :allowEditPriority="allowEditPriority"
     :allowEditLabel="allowEditLabel"
@@ -72,17 +75,29 @@ export default {
     initJson: {
       type: Object,
       default: {
-        'root': {
-            "data": {
-                "id": "c9hol4de1iw0",
-                "created": 1614161753133,
-                "text": "中心主题"
-            },
-            "template": "default",
-            "theme": "fresh-blue",
-            "version": "1.4.43"
+        root: {
+          data: {
+            id: "c9hol4de1iw0",
+            created: 1614161753133,
+            text: "中心主题"
+          },
+          template: "default",
+          theme: "fresh-blue",
+          version: "1.4.43"
         }
       }
+    },
+    sceneViewName: {
+      type: String,
+      default: ""
+    },
+    showHeaderFlag: {
+      type: Boolean,
+      default: true
+    },
+    showNavigatorFlag: {
+      type: Boolean,
+      default: true
     },
     isNavOpen: {
       type: Boolean,
@@ -177,7 +192,7 @@ article, aside, footer, header, nav, section {
 
 h1 {
   font-size: 2em;
-  margin: .67em 0;
+  margin: 0.67em 0;
 }
 
 figcaption, figure, main {
@@ -248,11 +263,11 @@ sub, sup {
 }
 
 sub {
-  bottom: -.25em;
+  bottom: -0.25em;
 }
 
 sup {
-  top: -.5em;
+  top: -0.5em;
 }
 
 audio, video {
@@ -302,7 +317,7 @@ button, html [type='button'], [type='reset'], [type='submit'] {
 
 fieldset {
   margin: 0 2px;
-  padding: .35em .625em .75em;
+  padding: 0.35em 0.625em 0.75em;
   border: 1px solid #c0c0c0;
 }
 
