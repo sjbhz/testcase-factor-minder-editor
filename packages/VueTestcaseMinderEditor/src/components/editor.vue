@@ -15,7 +15,7 @@
 
     <!-- note markdown 挂件 -->
     <div v-show="showNotePreviewer" class="note-box" ref="notePreviewer" :style="notBoxStyle">
-      <VueMarkdown :source="markSource" />
+      <!-- <VueMarkdown :source="markSource" /> -->
     </div>
 
     <!--    查询过滤文本框-->
@@ -28,7 +28,7 @@
 import headerMenu from "./header";
 import mainEditor from "./main/mainEditor";
 import navigator from "./main/navigator";
-import VueMarkdown from "vue-markdown";
+// import VueMarkdown from "vue-markdown";
 import searchBox from "./menu/edit/search/searchBox";
 import searchLabelBox from "./menu/edit/search/searchLabelBox";
 import { expandParent } from "../utils/convert/jsonconvert";
@@ -41,7 +41,6 @@ export default {
     headerMenu,
     mainEditor,
     navigator,
-    VueMarkdown,
     searchBox,
     searchLabelBox
   },

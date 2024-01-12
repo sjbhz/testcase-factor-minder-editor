@@ -62,7 +62,7 @@ export default {
           ]
         }
       },
-      sceneViewName: "场景1",
+      sceneViewName: "场景123",
       showHeaderFlag: true,
       showNavigatorFlag: true,
       isNavOpenSmall: false,
@@ -125,6 +125,8 @@ export default {
       ) {
         // 上移/下移
         // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
+      } else if (execCommandNameTemp == "paste") {
+        console.log("pastepastepastepastepaste-----");
       }
     });
   },
@@ -178,7 +180,9 @@ export default {
       var buttons = [
         "新增子节点:Tab|Insert:AppendChildNode",
         "新增邻节点:Enter:AppendSiblingNode",
-        "删除节点:Delete|Backspace:RemoveNode"
+        "删除节点:Delete|Backspace:RemoveNode",
+        "复制节点:Ctrl+C:Copy",
+        "粘贴节点:Ctrl+V:Paste"
       ];
       // "上级:Shift+Tab|Shift+Insert:AppendParentNode",
       // "下移节点:Alt+Down:ArrangeDown",
