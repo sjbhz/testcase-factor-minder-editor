@@ -58,6 +58,8 @@ define(function(require, exports, module) {
             },
 
             getConnect: function() {
+                if(!this.getMinder()) return originGetConnect.call(this, this)
+
                 var support = this.getMinder().getTemplateSupport('getConnect') || originGetConnect;
                 return support.call(this, this);
             }

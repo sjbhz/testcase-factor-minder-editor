@@ -9,7 +9,7 @@ define(function(require, exports, module) {
         var km = this,
             _clipboardNodes = [],
             _selectedNodes = [];
-        
+
         function appendChildNode(parent, child) {
             _selectedNodes.push(child);
             km.appendNode(child, parent);
@@ -32,6 +32,37 @@ define(function(require, exports, module) {
                 appendChildNode(child, ci);
             }
         }
+        // 粘贴时添加子节点 --20240229
+        function appendChildNodePaste(parent, child) {
+            console.log('parent--appendChildNodePaste',parent,child)
+
+            // 更新child的parentId\level\resource\caseNum
+            var childtemp = child.clone()
+
+             //每层的子节点id不能相同，每个子节点都需要单独生成新的id
+            childtemp.data.id = utils.guid()
+            childtemp.data.parentId = parent.data.id
+            childtemp.data.level = null
+            childtemp.data.caseNum = 0
+            childtemp.data.resource = []
+
+            _selectedNodes.push(childtemp);
+
+            km.appendNode(childtemp, parent);
+            childtemp.render();
+            childtemp.setLayoutOffset(null);
+
+            var children = childtemp.children.map(function(node) {
+              return node.clone();
+            });
+
+            childtemp.clearChildren();
+
+            // 子节点迭代遍历
+            for (var i = 0, ci;(ci = children[i]); i++) {
+                  appendChildNodePaste(childtemp, ci);
+            }
+        }
 
         function sendToClipboard(nodes) {
             if (!nodes.length) return;
@@ -39,9 +70,10 @@ define(function(require, exports, module) {
                 return a.getIndex() - b.getIndex();
             });
             _clipboardNodes = nodes.map(function(node) {
-                return node.clone();
+              // 在剪切的时候更新node的id
+                return node.clonePaste();
             });
-        } 
+        }
 
         /**
          * @command Copy
@@ -101,12 +133,18 @@ define(function(require, exports, module) {
 
             execute: function(km) {
                 if (_clipboardNodes.length) {
+                  // 不支持同时并列多个节点复制
+                  if(_clipboardNodes.length > 1) return
+
                     var nodes = km.getSelectedNodes();
                     if (!nodes.length) return;
+                    // console.log("PasteCommand---_clipboardNodes", _clipboardNodes);
 
                     for (var i = 0, ni; ni = _clipboardNodes[i]; i++) {
                         for (var j = 0, node; node = nodes[j]; j++) {
-                            appendChildNode(node, ni.clone());
+
+                          // appendChildNodePaste(node, ni.clone());
+                          appendChildNodePaste(node, ni.clonePaste()); //一次复制多次粘贴时，需要多次更新节点id
                         }
                     }
 
@@ -132,7 +170,7 @@ define(function(require, exports, module) {
                 this.fire('beforeCopy', e);
             }
 
-            var Cut = function (e) {    
+            var Cut = function (e) {
                 this.fire('beforeCut', e);
             }
 

@@ -1,9 +1,9 @@
 /*!
  * ====================================================
- * Kity Minder Core - v1.4.50 - 2023-09-04
+ * Kity Minder Core - v1.4.50 - 2024-03-13
  * https://github.com/fex-team/kityminder-core
  * GitHub: https://github.com/fex-team/kityminder-core.git 
- * Copyright (c) 2023 Baidu FEX; Licensed BSD-3-Clause
+ * Copyright (c) 2024 Baidu FEX; Licensed BSD-3-Clause
  * ====================================================
  */
 
@@ -2261,8 +2261,13 @@ _p[21] = {
          */
             postTraverse: function(fn, excludeThis) {
                 var children = this.getChildren();
-                for (var i = 0; i < children.length; i++) {
-                    children[i].postTraverse(fn);
+                if (children && children.length > 0) {
+                    for (var i = 0; i < children.length; i++) {
+                        // && children[i] instanceof MinderNode
+                        if (children[i]) {
+                            children[i].postTraverse(fn);
+                        }
+                    }
                 }
                 if (!excludeThis) fn(this);
             },
@@ -2323,6 +2328,15 @@ _p[21] = {
                 cloned.data = utils.clone(this.data);
                 this.children.forEach(function(child) {
                     cloned.appendChild(child.clone());
+                });
+                return cloned;
+            },
+            // 复制时触发，节点id需要更新--20240219
+            clonePaste: function() {
+                var cloned = new MinderNode();
+                cloned.data = utils.clonePaste(this.data);
+                this.children.forEach(function(child) {
+                    cloned.appendChild(child.clonePaste());
                 });
                 return cloned;
             },
@@ -3544,6 +3558,7 @@ _p[31] = {
                     return support.call(this, this);
                 },
                 getConnect: function() {
+                    if (!this.getMinder()) return originGetConnect.call(this, this);
                     var support = this.getMinder().getTemplateSupport("getConnect") || originGetConnect;
                     return support.call(this, this);
                 }
@@ -3694,6 +3709,7 @@ _p[32] = {
         });
         kity.extendClass(MinderNode, {
             getStyle: function(name) {
+                if (!this.getMinder()) return;
                 return this.getMinder().getNodeStyle(this, name);
             }
         });
@@ -3756,6 +3772,12 @@ _p[33] = {
         };
         exports.clone = function(source) {
             return JSON.parse(JSON.stringify(source));
+        };
+        // 复制粘贴时，节点id需要根据guid更新--20240219
+        exports.clonePaste = function(source) {
+            var sourcetemp = JSON.parse(JSON.stringify(source));
+            sourcetemp.id = (+new Date() * 1e6 + Math.floor(Math.random() * 1e6)).toString(36);
+            return sourcetemp;
         };
         exports.comparePlainObject = function(a, b) {
             return JSON.stringify(a) == JSON.stringify(b);
@@ -4618,13 +4640,41 @@ _p[44] = {
                     appendChildNode(child, ci);
                 }
             }
+            // 粘贴时添加子节点 --20240229
+            function appendChildNodePaste(parent, child) {
+                console.log("parent--appendChildNodePaste", parent, child);
+                // 更新child的parentId\level\resource\caseNum
+                var childtemp = child.clone();
+                console.log("childtemp---", childtemp);
+                //每层的子节点id不能相同，每个子节点都需要单独生成新的id
+                childtemp.data.id = utils.guid();
+                childtemp.data.parentId = parent.data.id;
+                childtemp.data.level = null;
+                childtemp.data.caseNum = 0;
+                childtemp.data.resource = [];
+                _selectedNodes.push(childtemp);
+                // console.log('parent--appendChildNodePaste3333',_selectedNodes)
+                km.appendNode(childtemp, parent);
+                childtemp.render();
+                childtemp.setLayoutOffset(null);
+                console.log("childtemp.children---", childtemp.children);
+                var children = childtemp.children.map(function(node) {
+                    return node.clone();
+                });
+                childtemp.clearChildren();
+                // 子节点迭代遍历
+                for (var i = 0, ci; ci = children[i]; i++) {
+                    appendChildNodePaste(childtemp, ci);
+                }
+            }
             function sendToClipboard(nodes) {
                 if (!nodes.length) return;
                 nodes.sort(function(a, b) {
                     return a.getIndex() - b.getIndex();
                 });
                 _clipboardNodes = nodes.map(function(node) {
-                    return node.clone();
+                    // 在剪切的时候更新node的id
+                    return node.clonePaste();
                 });
             }
             /**
@@ -4675,11 +4725,15 @@ _p[44] = {
                 base: Command,
                 execute: function(km) {
                     if (_clipboardNodes.length) {
+                        // 不支持同时并列多个节点复制
+                        if (_clipboardNodes.length > 1) return;
                         var nodes = km.getSelectedNodes();
                         if (!nodes.length) return;
+                        // console.log("PasteCommand---_clipboardNodes", _clipboardNodes);
                         for (var i = 0, ni; ni = _clipboardNodes[i]; i++) {
                             for (var j = 0, node; node = nodes[j]; j++) {
-                                appendChildNode(node, ni.clone());
+                                // appendChildNodePaste(node, ni.clone());
+                                appendChildNodePaste(node, ni.clonePaste());
                             }
                         }
                         km.select(_selectedNodes, true);

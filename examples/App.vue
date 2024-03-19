@@ -37,26 +37,124 @@ export default {
         root: {
           data: {
             text: "百度产品1",
-            id: "0"
+            id: "0",
+            parentId: "",
+            caseNum: 0
           },
           children: [
-            { data: { text: "新闻", id: "1", resource: ["(3)"] } },
-            { data: { text: "网页", id: "2", priority: 1, resource: ["4"] } },
             {
-              data: { text: "贴吧", id: "3", priority: 2 },
-              children: [{ data: { text: "ccccc", id: "4", priority: 2 } }]
+              data: {
+                text: "新闻",
+                id: "1",
+                priority: 2,
+                resource: ["(3)"],
+                parentId: "0",
+                caseNum: 0
+              },
+              children: [
+                {
+                  data: {
+                    text: "网页2",
+                    id: "2",
+                    priority: 1,
+                    resource: ["4"],
+                    parentId: "1",
+                    caseNum: 4
+                  }
+                }
+              ]
             },
-            { data: { text: "知道", id: "4", priority: 2 } },
-            { data: { text: "音乐", id: "5", priority: 3 } },
-            { data: { text: "图片", id: "6", priority: 4 } },
-            { data: { text: "视频", id: "7", priority: 3 } },
-            { data: { text: "地图", id: "8", priority: 5 } },
-            { data: { text: "百科", id: "9", priority: 3 } },
+            {
+              data: {
+                text: "网页",
+                id: "2",
+                priority: 1,
+                resource: ["4"],
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "贴吧",
+                id: "3",
+                priority: 2,
+                parentId: "0",
+                caseNum: 0
+              },
+              children: [
+                {
+                  data: {
+                    text: "ccccc",
+                    id: "4",
+                    priority: 2,
+                    parentId: "0",
+                    caseNum: 0
+                  }
+                }
+              ]
+            },
+            {
+              data: {
+                text: "知道",
+                id: "4",
+                priority: 2,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "音乐",
+                id: "5",
+                priority: 3,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "图片",
+                id: "6",
+                priority: 4,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "视频",
+                id: "7",
+                priority: 3,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "地图",
+                id: "8",
+                priority: 5,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
+            {
+              data: {
+                text: "百科",
+                id: "9",
+                priority: 3,
+                parentId: "0",
+                caseNum: 0
+              }
+            },
             {
               data: {
                 text: "更多",
                 id: "10",
-                hyperlink: "http://www.baidu.com/more"
+                hyperlink: "http://www.baidu.com/more",
+                parentId: "0",
+                caseNum: 0
               }
             }
           ]
@@ -126,7 +224,7 @@ export default {
         // 上移/下移
         // _this.handleArrangeUpOrDownNode(currentNode, execCommandNameTemp);
       } else if (execCommandNameTemp == "paste") {
-        console.log("pastepastepastepastepaste-----");
+        // console.log("pastepastepastepastepaste-----");
       }
     });
   },
@@ -140,7 +238,38 @@ export default {
       }
       minder.on("layoutallfinish", afterAppend);
     },
+    // 遍历子节点--反向处理数据结构,传输给后台的数据结构
+    getAllchildNodeReverse(nodeListchild, newChildJson) {
+      if (nodeListchild.length > 0) {
+        nodeListchild.forEach((item, index) => {
+          // let nodeTemp = item.getData();
+          let nodeTemp = {
+            ...item.data,
+            children: item.children&&item.children.data || []
+          };
+          nodeTemp.name = nodeTemp.text;
+          newChildJson[index] = nodeTemp;
+          // nodeListchild[index] = nodeTemp;   //这样会直接修改minderNode的类型！！不能这么处理
 
+          if (item.children.length > 0) {
+            this.getAllchildNodeReverse(item.children,newChildJson);
+          }
+        });
+      }
+    },
+    // 粘贴节点
+    handleCopyPaste(currentNode) {
+      // 标签字符串与数字相互转换
+      console.log("currentNode--", currentNode);
+      // currentNode为粘贴在哪个节点下； currentNode.children[currentNode.children.length-1] 粘贴为目标节点的最后一个子节点
+      let nodeListchild =
+        currentNode.children[currentNode.children.length - 1].children || [];
+      let firstChildData = currentNode.children[currentNode.children.length - 1].data;
+      let newChildJson = []; //所有的子节点的json格式
+      this.getAllchildNodeReverse(nodeListchild, newChildJson);
+      console.log("newChildJson---", newChildJson);
+
+    },
     // header 插入同级
     handleAppendSiblingNode() {
       // AppendLock++;
@@ -175,6 +304,7 @@ export default {
       this.setAddtionalHotbox(main);
     },
     setInitHoxBox(main) {
+      let _this = this;
       var runtime = window.editor;
       var fsm = runtime.fsm;
       var buttons = [
@@ -199,6 +329,7 @@ export default {
           label: label,
           key: key,
           action: function() {
+            let currentNode = minder.getSelectedNode();
             if (command.indexOf("Append") === 0) {
               AppendLock++;
               minder.execCommand(command, "分支主题");
@@ -210,6 +341,12 @@ export default {
                 minder.off("layoutallfinish", afterAppend);
               }
               minder.on("layoutallfinish", afterAppend);
+            } else if (command.indexOf("Paste") == 0) {
+              // 复制粘贴后
+              console.log("command-===222", currentNode); //粘贴到currentNode节点下
+              minder.execCommand(command);
+              _this.handleCopyPaste(currentNode);
+              fsm.jump("normal", "command-executed");
             } else {
               console.log("executed===", minder.getSelectedNode());
               minder.execCommand(command);

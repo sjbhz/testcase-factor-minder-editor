@@ -136,7 +136,8 @@ define(function(require, exports, module) {
 
     kity.extendClass(MinderNode, {
         getStyle: function(name) {
-            return this.getMinder().getNodeStyle(this, name);
+          if(!this.getMinder()) return
+          return this.getMinder().getNodeStyle(this, name);
         }
     });
 

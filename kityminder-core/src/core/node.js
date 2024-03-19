@@ -178,8 +178,12 @@ define(function(require, exports, module) {
          */
         postTraverse: function(fn, excludeThis) {
             var children = this.getChildren();
-            for (var i = 0; i < children.length; i++) {
-                children[i].postTraverse(fn);
+            if(children && children.length > 0) {
+              for (var i = 0; i < children.length; i++) {
+                if(children[i]){
+                  children[i].postTraverse(fn);
+                }
+              }
             }
             if (!excludeThis) fn(this);
         },
@@ -261,6 +265,18 @@ define(function(require, exports, module) {
 
             return cloned;
         },
+
+        // 复制时触发，节点id需要更新--20240219
+        clonePaste: function() {
+          var cloned = new MinderNode();
+          cloned.data = utils.clonePaste(this.data);
+          this.children.forEach(function(child) {
+              cloned.appendChild(child.clonePaste());
+          });
+
+          return cloned;
+        },
+
 
         compareTo: function(node) {
 

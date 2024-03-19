@@ -32,6 +32,13 @@ define(function(require, exports) {
         return JSON.parse(JSON.stringify(source));
     };
 
+    // 复制粘贴时，节点id需要根据guid更新--20240219
+    exports.clonePaste = function(source) {
+      var sourcetemp = JSON.parse(JSON.stringify(source))
+      sourcetemp.id = (+new Date() * 1e6 + Math.floor(Math.random() * 1e6)).toString(36)
+      return sourcetemp;
+    };
+
     exports.comparePlainObject = function(a, b) {
         return JSON.stringify(a) == JSON.stringify(b);
     };

@@ -2,8 +2,13 @@
 
 #### 特别注意：本组件为[vue-testcase-minder-editor](https://github.com/chenhengjie123/vue-testcase-minder-editor)基础上再次进行二次开发
 
-#### 特此存档---以满足添加测试用例公共因子标签的需求
+#### 环境：node v14.17.4
 
+#### 重新打包core操作： 
+#####  1、修改kityminder-core中的代码之后，npm run build
+#####  2、回到testcase-factor-minder-editor目录下 npm run lib , npm run serve
+
+#### 特此存档---以满足添加测试用例公共因子标签的需求
 ##### 2023-08-18 在加载完成后加入所需其他按钮，可在引用组建后，第三方直接调用即可
 ##### 2023-08-19 点击/切换标签后，添加事件上报，第三方直接调用即可
 ##### 2023-08-21 添加脑图保存按钮，并事件上报，第三方直接调用即可
@@ -11,7 +16,13 @@
 ##### 2023-08-25 Hotbox样式改为列表展示并提取出来，可供第三方直接引用
 ##### 2023-10-20 去掉一些不用的组件（组件安全扫描的要求）
 ##### 2024-01-12 按钮扩展复制、粘贴功能（本身支持，按钮直接引入即可）
+##### 2024-02-20 复制粘贴时，节点使用新生成的id，确保id的唯一性; 更新节点的parentId；同时更新节点的其他属性
 
+#### 效果
+![脑图](https://github.com/sjbhz/testcase-factor-minder-editor/blob/master/docs/preview2.jpg
+
+
+#### 以下为旧版vue-testcase-minder-editor说明，仅供参考
 
 基于百度脑图，并使用Vue二次开发的用例脑图编辑器组件。
 
@@ -25,7 +36,7 @@
 
 在此特别感谢 [fudax](https://github.com/fudax)、[MeYoung](https://github.com/MeYoung) 两位前辈的开源贡献
 
-## 效果
+ #### 效果
 
 ![脑图](https://github.com/chenhengjie123/vue-testcase-minder-editor/blob/master/docs/preview.png)
 
@@ -48,7 +59,7 @@ npm run lib && npm run serve
 
 表示通过 <http://localhost:8081> 可以打开
 
-# 项目中使用
+ #### 项目中使用
 
 安装本组件
 
@@ -133,11 +144,11 @@ export default {
 
 完整示例可查看 `examples` 下面的2个文件
 
-# 版本发布记录
+ #### 版本发布记录
 
 请查看 [CHANGELOG.md](CHANGELOG.md)
 
-## 本地开发
+ ##### 本地开发
 
 ``` bash
 # 安装依赖
@@ -174,7 +185,7 @@ cd kityminder-core && npm run build && cd ..
 ...
 ```
 
-# 发布版本指引
+ #### 发布版本指引
 
 1. 改动代码
 2. 提交这些改动
@@ -185,7 +196,7 @@ cd kityminder-core && npm run build && cd ..
 7. `git push && git push --tags` push代码及tags
 8. 运行 `npm publish` 发布到仓库上
 
-# 部分核心功能说明
+ #### 部分核心功能说明
 
 1、用例结果对应的节点属性是什么？
 
@@ -225,6 +236,6 @@ cd kityminder-core && npm run build && cd ..
 
 3、kityminder-core 的命令解析器及渲染器，解析前两处发出的命令并对应修改节点内容。可参考 `kityminder-core/src/module/result.js`
 
-# License
+ #### License
 
 BSD 3-Clause (基于fex-team/kityminder-core，并非kityminder-editor)
